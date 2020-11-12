@@ -4,6 +4,31 @@
 
 {% block body %}
 
-    <h1>My name is {{ name }}<h1>
+
+    {% if articles %}
+        <table class="table table-striped">
+          
+            <thead>
+                <tr>
+                    <th>Artice Title</th>
+                    <th>Actions</th>
+                </tr>
+                
+            </thead>
+            <tbody>
+
+                {% for article in articles %}
+                <tr>
+                <td> {{ article }} </td>
+                <td>
+                    <a href="/articles/1" class="btn btn-light">Show</a>
+                </td>
+                 </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Sorry you have not articles to display<p>
+    {% endif %}       
 
 {% endblock %}

@@ -13,7 +13,9 @@ class IndexController extends AbstractController { //article controller
      */ #instead of using routes.yaml and specificying the route there, we can do this
     public function index() {
         // return new Response('<h1>Hello<h1>');
-         return $this->render('articles/index.html.twig', array('name' => 'Hello')); //we use the array to pass stuff into the controller
+
+        $articles = ['Article 1', 'Article 2'];
+         return $this->render('articles/index.html.twig', array('articles' => $articles)); //we use the array to pass stuff into the controller
     }
 
 }
