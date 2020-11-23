@@ -3,12 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\DirectorRepository;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="director")
  * @ORM\Entity(repositoryClass=DirectorRepository::class)
  */
 class Director
@@ -16,7 +15,7 @@ class Director
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $id;
 
@@ -31,13 +30,6 @@ class Director
     private $lastName;
 
     /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Film", mappedBy="director")
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $films;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $biography;
@@ -48,7 +40,7 @@ class Director
     private $imageFile;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $imageName;
 
@@ -56,14 +48,16 @@ class Director
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
-	
-	/**
-	 * Director constructor.
-	 */
-	public function __construct()
-	{
-		$this->films = new ArrayCollection();
-	}
+
+    /**
+     * @ORM\OneToMany(targetEntity=Film::class, mappedBy="director")
+     */
+    private $films;
+
+    public function __construct()
+    {
+        $this->films = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -123,7 +117,7 @@ class Director
         return $this->imageName;
     }
 
-    public function setImageName(string $imageName): self
+    public function setImageName(?string $imageName): self
     {
         $this->imageName = $imageName;
 
@@ -138,6 +132,36 @@ class Director
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Film[]
+     */
+    public function getFilms(): Collection
+    {
+        return $this->films;
+    }
+
+    public function addFilm(Film $film): self
+    {
+        if (!$this->films->contains($film)) {
+            $this->films[] = $film;
+            $film->setDirector($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFilm(Film $film): self
+    {
+        if ($this->films->removeElement($film)) {
+            // set the owning side to null (unless already changed)
+            if ($film->getDirector() === $this) {
+                $film->setDirector(null);
+            }
+        }
 
         return $this;
     }

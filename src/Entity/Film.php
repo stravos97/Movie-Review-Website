@@ -3,13 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\FilmRepository;
-use Doctrine\ORM\Mapping as ORM;
-use DateTime;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @ORM\Table(name="film")
  * @ORM\Entity(repositoryClass=FilmRepository::class)
  */
 class Film
@@ -17,7 +15,7 @@ class Film
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $id;
 
@@ -32,25 +30,12 @@ class Film
     private $synopsis;
 
     /**
-     * @var ArrayCollection
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $reviews;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Director")
-     * @ORM\JoinColumn(name="director_id", referencedColumnName="id")
-     * @ORM\Column(type="string", length=255)
-     */
-    private $director;
-
-    /**
      * @ORM\Column(type="string", length=100)
      */
     private $genre;
 
     /**
-     * @ORM\Column(type="date_immutable", nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $publishedDate;
 
@@ -63,14 +48,27 @@ class Film
      * @ORM\Column(type="string", length=60, nullable=true)
      */
     private $imageName;
-	
-	/**
-	 * Film constructor.
-	 */
-	public function __construct()
-	{
-		$this->reviews = new ArrayCollection();
-	}
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Director::class, inversedBy="films")
+     */
+    private $director;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Review::class, mappedBy="film")
+     */
+    private $review;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     */
+    private $updatedAt;
+
+    public function __construct()
+    {
+        $this->review = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -100,19 +98,6 @@ class Film
 
         return $this;
     }
-    
-
-    public function getDirector(): ?string
-    {
-        return $this->director;
-    }
-
-    public function setDirector(string $director): self
-    {
-        $this->director = $director;
-
-        return $this;
-    }
 
     public function getGenre(): ?string
     {
@@ -126,12 +111,12 @@ class Film
         return $this;
     }
 
-    public function getPublishedDate(): ?\DateTimeImmutable
+    public function getPublishedDate(): ?string
     {
         return $this->publishedDate;
     }
 
-    public function setPublishedDate(?\DateTimeImmutable $publishedDate): self
+    public function setPublishedDate(string $publishedDate): self
     {
         $this->publishedDate = $publishedDate;
 
@@ -158,6 +143,60 @@ class Film
     public function setImageName(?string $imageName): self
     {
         $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    public function getDirector(): ?Director
+    {
+        return $this->director;
+    }
+
+    public function setDirector(?Director $director): self
+    {
+        $this->director = $director;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Review[]
+     */
+    public function getReview(): Collection
+    {
+        return $this->review;
+    }
+
+    public function addReview(Review $review): self
+    {
+        if (!$this->review->contains($review)) {
+            $this->review[] = $review;
+            $review->setFilm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): self
+    {
+        if ($this->review->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getFilm() === $this) {
+                $review->setFilm(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
