@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="f42fd20d-dc8f-4cf1-b1d4-2db13ef3a0f1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
@@ -89,6 +107,8 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="DatabaseDriversLRU" value="mysql" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -109,10 +129,33 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="WindowStateProjectService">
-    <state x="1039" y="243" width="672" height="678" key="search.everywhere.popup" timestamp="1605905311220">
+    <state x="1687" y="222" key="#Inspections" timestamp="1606168004828">
       <screen x="0" y="0" width="2752" height="1112" />
     </state>
-    <state x="1039" y="243" width="672" height="678" key="search.everywhere.popup/0.0.2752.1112@0.0.2752.1112" timestamp="1605905311220" />
+    <state x="1687" y="222" key="#Inspections/0.0.2752.1112@0.0.2752.1112" timestamp="1606168004828" />
+    <state x="1657" y="210" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1606167764219">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state x="1657" y="210" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2752.1112@0.0.2752.1112" timestamp="1606167764219" />
+    <state width="320" height="692" key="HiddenNamespacesPopup" timestamp="1606167777366">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="320" height="692" key="HiddenNamespacesPopup/0.0.2752.1112@0.0.2752.1112" timestamp="1606167777366" />
+    <state x="1716" y="250" width="840" height="678" key="search.everywhere.popup" timestamp="1606167868824">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state x="1716" y="250" width="840" height="678" key="search.everywhere.popup/0.0.2752.1112@0.0.2752.1112" timestamp="1606167868824" />
   </component>
 </project>

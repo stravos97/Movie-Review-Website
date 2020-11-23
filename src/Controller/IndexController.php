@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class IndexController extends AbstractController { //article controller
     /**
-     * @Route("/") 
+     * @Route("/article/save")
      * @Method({"GET"})
      */ #instead of using routes.yaml and specificying the route there, we can do this
     public function index() {
