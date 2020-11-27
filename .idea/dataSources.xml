@@ -7,5 +7,11 @@
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://127.0.0.1:3306</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="Portainer" uuid="b0803897-32b0-43d1-9998-c96814ba52a5">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://192.168.1.100:32771</jdbc-url>
+    </data-source>
   </component>
 </project>

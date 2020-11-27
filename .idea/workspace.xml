@@ -20,18 +20,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f42fd20d-dc8f-4cf1-b1d4-2db13ef3a0f1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/commandlinetools/Symfony_27_11_2020__16_16.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/commandlinetools/schemas/frameworkDescriptionVersion1.1.4.xsd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/b0803897-32b0-43d1-9998-c96814ba52a5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/b0803897-32b0-43d1-9998-c96814ba52a5/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/Version20201127164753.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/Version20201127170135.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/Version20201127170355.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
-    <execution />
+    <execution>
+      <phar pharPath="$PROJECT_DIR$/composer.phar" interpreterId="f22f00ae-bfe9-4386-983f-f25aa5567613" />
+    </execution>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -112,6 +124,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -123,6 +136,10 @@
       <option name="presentableId" value="Default" />
       <updated>1605539325429</updated>
       <workItem from="1605539327720" duration="1039000" />
+      <workItem from="1606492298401" duration="75000" />
+      <workItem from="1606492379594" duration="123000" />
+      <workItem from="1606492510426" duration="1212000" />
+      <workItem from="1606493779463" duration="3890000" />
     </task>
     <servers />
   </component>
@@ -139,20 +156,38 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="467" y="455" width="828" height="684" key="#CLI_Interpreters" timestamp="1606493419801">
+      <screen x="36" y="0" width="3404" height="1440" />
+    </state>
+    <state x="467" y="455" width="828" height="684" key="#CLI_Interpreters/36.0.3404.1440@36.0.3404.1440" timestamp="1606493419801" />
     <state x="1687" y="222" key="#Inspections" timestamp="1606168004828">
       <screen x="0" y="0" width="2752" height="1112" />
     </state>
     <state x="1687" y="222" key="#Inspections/0.0.2752.1112@0.0.2752.1112" timestamp="1606168004828" />
-    <state x="1657" y="210" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1606167764219">
-      <screen x="0" y="0" width="2752" height="1112" />
+    <state x="979" y="315" width="804" height="677" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1606496055592">
+      <screen x="0" y="0" width="3440" height="1404" />
     </state>
     <state x="1657" y="210" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2752.1112@0.0.2752.1112" timestamp="1606167764219" />
-    <state width="320" height="692" key="HiddenNamespacesPopup" timestamp="1606167777366">
-      <screen x="0" y="0" width="2752" height="1112" />
+    <state x="979" y="315" width="804" height="677" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.3440.1404@0.0.3440.1404" timestamp="1606496055592" />
+    <state x="631" y="632" width="505" height="330" key="ComposerInitDialogKey" timestamp="1606493424501">
+      <screen x="36" y="0" width="3404" height="1440" />
+    </state>
+    <state x="631" y="632" width="505" height="330" key="ComposerInitDialogKey/36.0.3404.1440@36.0.3404.1440" timestamp="1606493424501" />
+    <state width="400" height="874" key="HiddenNamespacesPopup" timestamp="1606497160113">
+      <screen x="0" y="0" width="3440" height="1404" />
     </state>
     <state width="320" height="692" key="HiddenNamespacesPopup/0.0.2752.1112@0.0.2752.1112" timestamp="1606167777366" />
+    <state width="400" height="874" key="HiddenNamespacesPopup/0.0.3440.1404@0.0.3440.1404" timestamp="1606497160113" />
+    <state x="545" y="392" key="SettingsEditor" timestamp="1606492436525">
+      <screen x="36" y="0" width="3404" height="1440" />
+    </state>
+    <state x="545" y="392" key="SettingsEditor/36.0.3404.1440@36.0.3404.1440" timestamp="1606492436525" />
     <state x="1716" y="250" width="840" height="678" key="search.everywhere.popup" timestamp="1606167868824">
       <screen x="0" y="0" width="2752" height="1112" />
     </state>
