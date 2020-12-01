@@ -5,6 +5,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Article;
 
 class IndexController extends AbstractController { //article controller
     /**
@@ -17,5 +18,21 @@ class IndexController extends AbstractController { //article controller
         $articles = ['Article 1', 'Article 2'];
          return $this->render('articles/index.html.twig', array('articles' => $articles)); //we use the array to pass stuff into the controller
     }
+
+//    /**
+//     * @Route ("/article/saves")
+//     */ //Save data directly to the database
+//    public function save(){
+//        $entityManager = $this->getDoctrine()->getManager(); //EntityManager interface is used to allow applications to manage and search for entities in the relational database.
+//        $article =new Article();
+//        $article->setTitle('Article 2');
+//        $article->setBody('This is the body for article 2');
+//
+//        $entityManager->persist($article); //persist the data (tells the system we want to eventually save the data)
+//        $entityManager->flush(); //to execute the code we use the flush command
+//
+//        return new Response('Saves an article with the id of ' . $article->getID());
+//
+//    }
 
 }

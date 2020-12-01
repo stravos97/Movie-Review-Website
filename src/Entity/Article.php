@@ -27,8 +27,31 @@ class Article
      */
     private $body;
 
-//    public function getId(): ?int
-//    {
-//        return $this->id;
-//    }
+    public function getID(): ?int
+    {
+        return $this->id;
+    }
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getBody(): ?string
+    {
+        return $this;
+    }
+
+    public function setBody(?string $body): self
+    {
+        $this->body = $body;
+
+        return $this;
+    }
+
 }
