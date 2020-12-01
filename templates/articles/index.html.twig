@@ -10,7 +10,7 @@
           
             <thead>
                 <tr>
-                    <th>Artice Title</th>
+                    <th>Article Title</th>
                     <th>Actions</th>
                 </tr>
                 
@@ -19,9 +19,9 @@
 
                 {% for article in articles %}
                 <tr>
-                <td> {{ article }} </td>
+                <td> {{ article.title }} </td>
                 <td>
-                    <a href="/articles/1" class="btn btn-light">Show</a>
+                    <a href="/article/{{ article.id }}" class="btn btn-light">Show</a>
                 </td>
                  </tr>
                 {% endfor %}

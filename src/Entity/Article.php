@@ -44,7 +44,7 @@ class Article
 
     public function getBody(): ?string
     {
-        return $this;
+        return $this->body;
     }
 
     public function setBody(?string $body): self

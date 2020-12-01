@@ -9,14 +9,25 @@ use App\Entity\Article;
 
 class IndexController extends AbstractController { //article controller
     /**
-     * @Route("/article/save")
+     * @Route("/article/save" , name="article_list")
      * @Method({"GET"})
      */ #instead of using routes.yaml and specificying the route there, we can do this
     public function index() {
         // return new Response('<h1>Hello<h1>');
+    $articles=$this->getDoctrine()->getRepository
+    (Article::class)->findAll();
 
-        $articles = ['Article 1', 'Article 2'];
-         return $this->render('articles/index.html.twig', array('articles' => $articles)); //we use the array to pass stuff into the controller
+
+         return $this->render('articles/index.html.twig', array('articles' => $articles)); //we use this to generate article objects, each containing all of our article data
+    }
+
+    /**
+     * @Route("/article/{id}", name="article_show")
+     */
+    public function show($id){ //gets the id from the {} above
+        $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
+
+        return $this->render('articles/show.html.twig', array('article' => $article)); //only contains a single article
     }
 
 //    /**
