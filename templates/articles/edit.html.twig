@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Articles{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }} {# This is a post request to the same URL, the same route that the get request comes from #}
+    {{ form_widget(form) }} {# This is used to render a form text box #}
+    {{ form_end(form) }}
+{% endblock %}

@@ -108,6 +108,47 @@ class IndexController extends AbstractController { //article controller
     }
 
     /**
+     * @Route("/article/edit/{id}", name="edit_article")
+     * Method({"GET", "POST"})
+     */
+    public function edit(Request $request, $id) {
+
+       /*
+        * This part finds the article by the ID passed in
+        */
+        $article = new Article();
+        $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
+
+
+    //this article will be found and passed in to the form
+        $form = $this->createFormBuilder($article)
+            ->add('title', TextType::class, array('attr' => array('class' => 'form-control')))
+            ->add('body', TextareaType::class, array(
+                'required' => false,
+                'attr' => array('class' => 'form-control')
+            ))
+            ->add('save', SubmitType::class, array(
+                'label' => 'Update',
+                'attr' => array('class' => 'btn btn-primary mt-3')
+            ))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+
+            return $this->redirectToRoute('article_list');
+        }
+
+        return $this->render('articles/edit.html.twig', array(
+            'form' => $form->createView()
+        ));
+    }
+
+    /**
      * @Route("/article/{id}", name="article_show")
      */ //
     public function show($id){ //gets the id from the {} above
