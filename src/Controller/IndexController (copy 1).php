@@ -1,7 +1,6 @@
 <?php
 namespace App\Controller;
 
-use App\Entity\Review;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use App\Entity\Article;
 
 /*
  * Dont forget comments start with /*
@@ -18,7 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class IndexController extends AbstractController { //article controller
     /**
-     * @Route("/" , name="article_list")
+     * @Route("/article/save" , name="article_list")
      * @Method({"GET"})
      */
     public function index() {
@@ -29,7 +29,7 @@ class IndexController extends AbstractController { //article controller
 
         // return new Response('<h1>Hello<h1>');
     $articles=$this->getDoctrine()->getRepository
-    (Review::class)->findAll();
+    (Article::class)->findAll();
 
 
          return $this->render('articles/index.html.twig', array('articles' => $articles)); //we use this to generate article objects, each containing all of our article data
@@ -95,7 +95,7 @@ class IndexController extends AbstractController { //article controller
      * @Method({"DELETE"})
      */
     public function delete(Request $request, $id) {
-        $article = $this->getDoctrine()->getRepository(Review::class)->find($id);
+        $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($article);
@@ -117,7 +117,7 @@ class IndexController extends AbstractController { //article controller
         * This part finds the article by the ID passed in
         */
         $article = new Article();
-        $article = $this->getDoctrine()->getRepository(Review::class)->find($id);
+        $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
 
 
     //this article will be found and passed in to the form
@@ -158,7 +158,7 @@ class IndexController extends AbstractController { //article controller
          * This will then find the article with that id number and render the other fields that id number holds as an array. This array then displays the title and body in this case
          *  This method should always be last (at the bottom of the page and the last method run). As it will try to load anything after /article as an id, even if it is not an id e.g.title
          */
-        $article = $this->getDoctrine()->getRepository(Review::class)->find($id);
+        $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
 
         return $this->render('articles/show.html.twig', array('article' => $article)); //only contains a single article
     }
