@@ -51,8 +51,8 @@ class IndexController extends AbstractController { //article controller
          * This entire method will create a form, when clicking the 'new article' button.
          * It will render it, then allow the user to submit a completed form once the requirements are met
          */
-        $article = new Review();
-        $form = $this->createForm(NewArticle::class, $article); // YOu don't need to get the data ->getData. You pass the whole form in
+        $review = new Review();
+        $form = $this->createForm(NewArticle::class, $review); // YOu don't need to get the data ->getData. You pass the whole form in
 
         /**
          * Checks to see if the form is submitted and sends the completed form to the database
@@ -61,9 +61,8 @@ class IndexController extends AbstractController { //article controller
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($article);
+            $entityManager->persist($review);
             $entityManager->flush();
 
             return $this->redirectToRoute('article_list');
@@ -139,22 +138,14 @@ class IndexController extends AbstractController { //article controller
        /*
         * This part finds the article by the ID passed in
         */
-        $article = new Article();
-        $article = $this->getDoctrine()->getRepository(Review::class)->find($id);
+        //$article = new Review();
 
+        $review = new Review();
+        $review = $this->getDoctrine()->getRepository(Review::class)->find($id);
 
-    //this article will be found and passed in to the form
-        $form = $this->createFormBuilder($article)
-            ->add('title', TextType::class, array('attr' => array('class' => 'form-control')))
-            ->add('body', TextareaType::class, array(
-                'required' => false,
-                'attr' => array('class' => 'form-control')
-            ))
-            ->add('save', SubmitType::class, array(
-                'label' => 'Update',
-                'attr' => array('class' => 'btn btn-primary mt-3')
-            ))
-            ->getForm();
+        //this article will be found and passed in to the form
+        $form = $this->createForm(NewArticle::class, $review); // YOu don't need to get the data ->getData. You pass the whole form in
+
 
         $form->handleRequest($request);
 
