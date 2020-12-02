@@ -1,7 +1,10 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Article;
 use App\Entity\Review;
+use App\Form\NewArticle;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,6 +42,7 @@ class IndexController extends AbstractController { //article controller
     /**
      * @Route ("/article/new", name="new_article")
      * @Method({"GET", "POST"})
+     * @param Request $request
      *
      */
     public function new(Request $request){
@@ -47,32 +51,16 @@ class IndexController extends AbstractController { //article controller
          * This entire method will create a form, when clicking the 'new article' button.
          * It will render it, then allow the user to submit a completed form once the requirements are met
          */
-
-
-        $article = new Article();
-
-        /*
-         * Creates a form with the title and body fields. This form is used to create a new Article
-         * The title is required and the body is not;
-         */
-        $form = $this->createFormBuilder($article) //creating the form here with all the attributes and classes
-            ->add('title', TextType::class, array('attr' => array('class' => 'form-control')))
-            ->add('body', TextareaType::class, array(
-                'required' => true,
-                'attr' => array('class' => 'form-control')
-            ))
-            ->add('save', SubmitType::class, array(
-                'label' => 'Create',
-                'attr' => array('class' => 'btn btn-primary mt-3')
-            ))
-            ->getForm();
+        $article = new Review();
+        $form = $this->createForm(NewArticle::class, $article); // YOu don't need to get the data ->getData. You pass the whole form in
 
         /**
          * Checks to see if the form is submitted and sends the completed form to the database
          */
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $article = $form->getData();
+
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($article);
@@ -81,12 +69,47 @@ class IndexController extends AbstractController { //article controller
             return $this->redirectToRoute('article_list');
         }
 
-        /*
-         * Sends a GET request to the twig page, and shows the form based on the attributes set above
-         */
-        return $this->render('articles/new.html.twig', array(
-            'form' => $form->createView() //we are passing form->crateView as form
-        ));
+        return $this->render('articles/new.html.twig', [
+            'form' => $form->createView(),
+        ]);
+
+        //$article = new Article();
+//        /*
+//         * Creates a form with the title and body fields. This form is used to create a new Article
+//         * The title is required and the body is not;
+//         */
+//        $form = $this->createFormBuilder($article) //creating the form here with all the attributes and classes
+//            ->add('title', TextType::class, array('attr' => array('class' => 'form-control')))
+//            ->add('body', TextareaType::class, array(
+//                'required' => true,
+//                'attr' => array('class' => 'form-control')
+//            ))
+//            ->add('save', SubmitType::class, array(
+//                'label' => 'Create',
+//                'attr' => array('class' => 'btn btn-primary mt-3')
+//            ))
+//            ->getForm();
+//
+//        /**
+//         * Checks to see if the form is submitted and sends the completed form to the database
+//         */
+//        $form->handleRequest($request);
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $article = $form->getData();
+//
+//            $entityManager = $this->getDoctrine()->getManager();
+//            $entityManager->persist($article);
+//            $entityManager->flush();
+//
+//            return $this->redirectToRoute('article_list');
+//        }
+//
+//        /*
+//         * Sends a GET request to the twig page, and shows the form based on the attributes set above
+//         */
+//        return $this->render('articles/new.html.twig', array(
+//            'form' => $form->createView() //we are passing form->crateView as form
+//        ));
 
     }
 

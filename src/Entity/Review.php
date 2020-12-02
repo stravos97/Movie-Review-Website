@@ -25,7 +25,7 @@ class Review
     private $rating;
 
     /**
-     * @ORM\Column(type="date_immutable")
+     * @ORM\Column(type="datetime")
      */
     private $date;
 
@@ -67,6 +67,7 @@ class Review
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->date = new \DateTime();;
     }
 
     public function getId(): ?int
@@ -86,7 +87,7 @@ class Review
         return $this;
     }
 
-    public function getDate(): ?\DateTimeImmutable
+    public function getDate(): \DateTime
     {
         return $this->date;
     }
@@ -115,7 +116,7 @@ class Review
         return $this->message_body;
     }
 
-    public function setMessageBody(string $message_body): self
+    public function setMessageBody($message_body): self
     {
         $this->message_body = $message_body;
 
