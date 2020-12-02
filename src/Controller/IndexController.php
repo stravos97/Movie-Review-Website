@@ -11,12 +11,22 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Entity\Article;
 
+/*
+ * Dont forget comments start with /*
+ * ROUTES have to start with /** . If you don't do this you will get an unexpected error. Method won't ever be reached, therefore won't be run
+ */
+
 class IndexController extends AbstractController { //article controller
     /**
      * @Route("/article/save" , name="article_list")
      * @Method({"GET"})
-     */ #instead of using routes.yaml and specificying the route there, we can do this
+     */
     public function index() {
+
+        /*
+         * This whole method will find all the article objects. It is then used to render the objects as a table on the homepage
+         */
+
         // return new Response('<h1>Hello<h1>');
     $articles=$this->getDoctrine()->getRepository
     (Article::class)->findAll();
@@ -29,15 +39,26 @@ class IndexController extends AbstractController { //article controller
     /**
      * @Route ("/article/new", name="new_article")
      * @Method({"GET", "POST"})
+     *
      */
     public function new(Request $request){
 
+        /*
+         * This entire method will create a form, when clicking the 'new article' button.
+         * It will render it, then allow the user to submit a completed form once the requirements are met
+         */
+
+
         $article = new Article();
 
-        $form = $this->createFormBuilder($article)
+        /*
+         * Creates a form with the title and body fields. This form is used to create a new Article
+         * The title is required and the body is not;
+         */
+        $form = $this->createFormBuilder($article) //creating the form here with all the attributes and classes
             ->add('title', TextType::class, array('attr' => array('class' => 'form-control')))
             ->add('body', TextareaType::class, array(
-                'required' => false,
+                'required' => true,
                 'attr' => array('class' => 'form-control')
             ))
             ->add('save', SubmitType::class, array(
@@ -46,16 +67,56 @@ class IndexController extends AbstractController { //article controller
             ))
             ->getForm();
 
+        /**
+         * Checks to see if the form is submitted and sends the completed form to the database
+         */
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $article = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($article);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('article_list');
+        }
+
+        /*
+         * Sends a GET request to the twig page, and shows the form based on the attributes set above
+         */
         return $this->render('articles/new.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView() //we are passing form->crateView as form
         ));
 
     }
 
     /**
+     * @Route("/article/delete/{id}")
+     * @Method({"DELETE"})
+     */
+    public function delete(Request $request, $id) {
+        $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($article);
+        $entityManager->flush();
+
+        $response = new Response();
+        $response->send();
+
+
+    }
+
+    /**
      * @Route("/article/{id}", name="article_show")
-     */ //THIS should always be last. It will try to load anything after /article as an id, even if it is not an id
+     */ //
     public function show($id){ //gets the id from the {} above
+
+        /*
+         * This method is rendered when the user clicks the show button on the homepage. This will get the id number from the url (given by index() Objects above).
+         * This will then find the article with that id number and render the other fields that id number holds as an array. This array then displays the title and body in this case
+         *  This method should always be last (at the bottom of the page and the last method run). As it will try to load anything after /article as an id, even if it is not an id e.g.title
+         */
         $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
 
         return $this->render('articles/show.html.twig', array('article' => $article)); //only contains a single article
