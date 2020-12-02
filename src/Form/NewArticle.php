@@ -27,7 +27,6 @@ class NewArticle extends AbstractType
 
             ->add('save', SubmitType::class, array(
                 'label' => 'Create',
-                'label' => 'Create',
                 'attr' => array('class' => 'btn btn-primary mt-3')
             ))
             ;
