@@ -6,35 +6,42 @@
 
 
     {% if articles %}
-        <table id="articles" class="table table-striped">
-          
-            <thead>
-                <tr>
-                    <th>Article Title</th>
-                    <th>Actions</th>
-                </tr>
-                
-            </thead>
-            <tbody>
 
-                {% for article in articles %}
-                <tr>
-                <td> {{ article.title }} </td>
-                <td>
-                    <a href="/article/{{ article.id }}" class="btn btn-light">Show</a>
-                    <a href="/article/edit/{{ article.id }}" class="btn btn-light">Edit</a>
 
-                </td>
-                    <td>
-                        <a href="#" class="btn btn-danger delete-article" data-id="{{ article.id }}">Delete</a>
-                    </td>
-                 </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+
+
+
+            <div class="row card-group">
+    {% for article in articles %}
+                <div class="col-sm-6">
+                    <div class="card text-center border-primary">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ article.title }}</h5>
+                            <img class="card-img-top" src="..." alt="Card image cap">
+                            <p class="card-text">{{ article.body }}</p>
+                            <a href="/article/{{ article.id }}" class="btn btn-primary">Show</a>
+                            <a href="/article/edit/{{ article.id }}" class="btn btn-secondary">Edit</a>
+                            <a href="#" class="btn btn-danger delete-article" data-id="{{ article.id }}">Delete</a>
+                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                        </div>
+                    </div>
+                </div>
+    {% endfor %}
+            </div>
+
+
+
+
+
+
     {% else %}
         <p>Sorry you have not articles to display<p>
     {% endif %}       
+
+
+
+
+
 
 {% endblock %}
 
