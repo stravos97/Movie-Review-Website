@@ -84,6 +84,9 @@
     "ocramius/proxy-manager": {
         "version": "2.2.3"
     },
+    "php": {
+        "version": "7.3"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -104,6 +107,9 @@
         "files": [
             "./config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "symfony/asset": {
+        "version": "v4.4.17"
     },
     "symfony/cache": {
         "version": "v4.4.16"
