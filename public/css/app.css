@@ -1,0 +1,22 @@
+.footer_r {
+    width: 100%;
+    bottom: 0;
+}
+
+.card {
+    margin-top: 29px;
+}
+
+.profile-img-r {
+    border-radius: 50%;
+    height: 100px;
+}
+
+.justify-text {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.border-r {
+    border-radius: 8px !important;
+}

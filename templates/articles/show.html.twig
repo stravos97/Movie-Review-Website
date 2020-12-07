@@ -3,8 +3,56 @@
 {% block title %}{{ article.movieTitle }}{% endblock %}
 
 {% block body %}
-    <h1>{{ article.movieTitle }}</h1>
-    <p>{{ article.messageBody }}</p>
-    <hr>
-    <a href="/">Go Back</a>
+    <div class="12">
+        <div class="mt-5 row">
+            <div class="col-sm-12 col-md-6">
+                <img class="img-fluid mb-5"
+                     src="https://images.pexels.com/photos/2524145/pexels-photo-2524145.jpeg?cs=srgb&dl=pexels-hoang-loc-2524145.jpg&fm=jpg">
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <h1>{{ article.movieTitle }}</h1>
+                <p class="justify-text">{{ article.messageBody }}</p>
+            </div>
+            <hr>
+            <div class="col-12">
+                <h2 class="mt-5 mb-4" >comments</h2>
+                <div class="row">
+                    <div class="col-sm-12 col-md-2">
+                        <img  class="profile-img-r img-fluid mb-5"
+                             src="https://thispersondoesnotexist.com/image">
+                    </div>
+                    <div class="col-sm-12 col-md-10">
+                        <h3>name of the commenter</h3>
+                        <p class="justify-text">Morbi consectetur, erat eu commodo imperdiet, tortor magna laoreet metus, commodo scelerisque turpis eros eget mauris. Donec rhoncus ligula eu rutrum consequat.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-2">
+                        <img  class="profile-img-r img-fluid mb-5"
+                              src="https://thispersondoesnotexist.com/image">
+                    </div>
+                    <div class="col-sm-12 col-md-10">
+                        <h3>name of the commenter</h3>
+                        <p class="justify-text">Morbi consectetur, erat eu commodo imperdiet, tortor magna laoreet metus, commodo scelerisque turpis eros eget mauris. Donec rhoncus ligula eu rutrum consequat.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-2">
+                        <img  class="profile-img-r img-fluid mb-5"
+                              src="https://thispersondoesnotexist.com/image">
+                    </div>
+                    <div class="col-sm-12 col-md-10">
+                        <h3>name of the commenter</h3>
+                        <p class="justify-text">Morbi consectetur, erat eu commodo imperdiet, tortor magna laoreet metus, commodo scelerisque turpis eros eget mauris. Donec rhoncus ligula eu rutrum consequat.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row">
+                    <a  href="/">Go Back</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
 {% endblock %}
