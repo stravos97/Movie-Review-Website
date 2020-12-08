@@ -18,7 +18,7 @@
                             <a href="/article/{{ article.id }}" class="btn btn-primary border-r">Show</a>
                             <a href="/article/edit/{{ article.id }}" class="btn btn-secondary border-r">Edit</a>
                             <a href="#" class="btn btn-danger delete-article border-r" data-id="{{ article.id }}">Delete</a>
-                            <p class="card-text mt-4"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            <p class="card-text mt-4"><small class="text-muted">Last updated at {{ article.date|date('H:i:s')}} ago</small></p>
                         </div>
                     </div>
                 </div>

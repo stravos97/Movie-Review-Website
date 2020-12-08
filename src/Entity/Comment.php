@@ -23,6 +23,7 @@ class Comment
     private $date;
 
     /**
+     * This is the owning side, and setting comments can only be done from here.
      * @ORM\ManyToOne(targetEntity=Review::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
