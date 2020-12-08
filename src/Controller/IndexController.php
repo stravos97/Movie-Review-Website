@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Review;
 use App\Form\NewArticle;
+use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -166,6 +167,15 @@ class IndexController extends AbstractController { //article controller
      * @Route("/article/{id}", name="article_show")
      */ //
     public function show($id){ //gets the id from the {} above
+
+        //$comments = $commentRepository->findBy(['movieID' => $review]); //manual way of retrieving comments
+
+       // $comments = $review->getComments();
+
+//        foreach ($comments as $comment){
+//            dd($comment);
+//        }
+        //dd($comments);
 
         /*
          * This method is rendered when the user clicks the show button on the homepage. This will get the id number from the url (given by index() Objects above).
