@@ -49,6 +49,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
 
     }
 
+    
     protected function getLoginUrl()
     {
         // TODO: Implement getLoginUrl() method.
