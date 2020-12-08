@@ -13,9 +13,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class LoginAuthenticator extends AbstractFormLoginAuthenticator
 {
+    use TargetPathTrait;
     private $userRepository;
     private $router;
     private $passwordEncoder;
@@ -25,7 +27,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
      * LoginAuthenticator constructor.
      * @param UserRepository $userRepository
      * @param RouterInterface $router
-     * @param UserPasswordEncoderInterface $userPasswordEncoder
+     * @param UserPasswordEncoderInterface $passwordEncoder
      */
     public function __construct(UserRepository $userRepository, RouterInterface $router, UserPasswordEncoderInterface $passwordEncoder){
         
@@ -99,6 +101,14 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        /**
+         * We are assigning the target path and then checking to see if it is empty or not
+         * If it is not empty and there is someting stored in the session then, return that target path, otherwise go to the homepage
+         * e.g. if we try to access a protected link that requires authentication, run this
+         */
+        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)){
+            return new RedirectResponse($targetPath);
+        }
        return new RedirectResponse($this->router->generate('article_list'));
     }
 

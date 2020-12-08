@@ -4,11 +4,17 @@
 namespace App\Controller;
 
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use App\Entity\Review;
 
+/**
+ * @IsGranted("ROLE_ADMIN")
+ * Class ArticleAdminController
+ * @package App\Controller
+ */
 class ArticleAdminController extends AbstractController
 {
     /**
