@@ -23,7 +23,7 @@
                               src="https://thispersondoesnotexist.com/image">
                     </div>
                     <div class="col-sm-12 col-md-10">
-                        <h3>{{ comment.id }}</h3>
+                        <h3>{{ comment.userID.firstName }}</h3>
                         <span> about {{ comment.date|date('H:i:s d-m-y') }}</span>
                         <p class="justify-text">{{ comment.commentBody }}</p>
                     </div>

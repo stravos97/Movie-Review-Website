@@ -33,6 +33,12 @@ class Comment
      * @ORM\Column(type="text")
      */
     private $commentBody;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $userID;
     
     public function getId(): ?int
     {
@@ -71,6 +77,18 @@ class Comment
     public function setCommentBody(string $commentBody): self
     {
         $this->commentBody = $commentBody;
+
+        return $this;
+    }
+
+    public function getUserID(): ?User
+    {
+        return $this->userID;
+    }
+
+    public function setUserID(?User $userID): self
+    {
+        $this->userID = $userID;
 
         return $this;
     }
