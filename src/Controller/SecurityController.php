@@ -23,4 +23,12 @@ class SecurityController extends AbstractController
 
         ]);
     }
+
+    /**
+     * @Route("/logout", name="website_logout")
+     */
+    public function logout(){
+        dd('hello');
+    }
+
 }

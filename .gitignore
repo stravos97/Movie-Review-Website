@@ -18,7 +18,7 @@
 # Logs (Symfony4)
 /var/log/*
 !var/log/.gitkeep
-
+/vendor/
 # Parameters
 /app/config/parameters.yml
 /app/config/parameters.ini
@@ -29,7 +29,7 @@
 /bin/*
 !bin/console
 !bin/symfony_requirements
-/vendor/
+
 
 # Assets and user uploads
 /web/bundles/
@@ -51,7 +51,7 @@
 # Embedded web-server pid file
 /.web-server-pid
 
-### PhpStorm ###
+# PhpStorm #
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
