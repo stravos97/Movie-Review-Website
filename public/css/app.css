@@ -20,3 +20,8 @@
 .border-r {
     border-radius: 8px !important;
 }
+
+.navbar-buttons {
+    margin: auto;
+    margin-left: 15px;
+}

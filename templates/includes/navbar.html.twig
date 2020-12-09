@@ -46,21 +46,14 @@
 
         <div class="input-group-append">
 
-        <button class="btn btn-outline-success my-2 mr-3 my-sm-0"
-                type="submit">Search</button>
+        <button class="btn btn-outline-success my-2 mr-2" type="submit">Search</button>
           {% if is_granted('ROLE_USER') %}
 
-            <li class="nav-item">
-              <a class="nav-link btn btn-success" href="/logout">Logout</a>
-            </li>
+            <a class="btn btn-outline-success my-2 navbar-buttons" href="/logout">Logout</a>
 
           {% else %}
 
-            <li class="nav-item">
-              <a class="nav-link btn btn-success" href="/login">Login</a>
-            </li>
-
-
+            <a class="btn btn-outline-success my-2 navbar-buttons" href="/login">Login</a>
 
           {% endif %}
 
