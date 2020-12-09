@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Review;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +18,24 @@ class ReviewRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Review::class);
+    }
+
+    public function findAllPublishedOrderedByNewest(){
+//        $this->createQueryBuilder()
+//            ->addCriteria(self::createNonDeletedComments());
+    }
+
+    /**
+     * The only static methods we should have in the repository
+     * Needs to be static so we can use it inside article. That's because Entity classes don't have access to services.
+     * @return Criteria
+     */
+    public static function createNonDeletedComments(): Criteria
+    {
+        return Criteria::create()
+            ->andWhere(Criteria::expr()->eq('isDeleted', false))
+            ->orderBy(['date' => 'DESC'])
+        ;
     }
 
     // /**

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ReviewRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -60,7 +61,8 @@ class Review
     private $actors;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="movieID")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="movieID", fetch="EXTRA_LAZY")
+     * @ORM\OrderBy({"date" = "DESC"})
      */
     private $comments;
 
@@ -199,5 +201,17 @@ class Review
         }
 
         return $this;
+    }
+
+    /**
+     * Displays the comments that don't have the isDeleted tag
+     * Criteria is used for filtering collections
+     * @return Collection|Comment[]
+     */
+    public function getNonRemovedComments(): Collection
+    {
+       $criteria = ReviewRepository::createNonDeletedComments();
+
+       return $this->comments->matching($criteria);
     }
 }

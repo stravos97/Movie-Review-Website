@@ -1,10 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends 'content_base.html.twig' %}
 
 {% block title %}{{ article.movieTitle }}{% endblock %}
 
-{% block body %}
+{% block content_body %}
     <div class="12">
-        <div class="mt-5 row">
+        <div class="mt-2 row">
             <div class="col-sm-12 col-md-6">
                 <img class="img-fluid mb-5"
                      src="https://images.pexels.com/photos/2524145/pexels-photo-2524145.jpeg?cs=srgb&dl=pexels-hoang-loc-2524145.jpg&fm=jpg">
@@ -15,8 +15,8 @@
             </div>
             <hr>
             <div class="col-12">
-                <h2 class="mt-5 mb-4">{{ article.comments|length }} comments</h2>
-            {% for comment in article.comments %}
+                <h2 class="mt-5 mb-4">{{ article.NonRemovedComments|length }} comments</h2>
+            {% for comment in article.NonRemovedComments %}
                 <div class="row">
                     <div class="col-sm-12 col-md-2">
                         <img  class="profile-img-r img-fluid mb-5"
@@ -26,6 +26,9 @@
                         <h3>{{ comment.userID.firstName }}</h3>
                         <span> about {{ comment.date|date('H:i:s d-m-y') }}</span>
                         <p class="justify-text">{{ comment.commentBody }}</p>
+                        {% if comment.isDeleted %}
+                            <span class="fa fa-close"></span> deleted
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}

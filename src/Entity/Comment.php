@@ -39,6 +39,11 @@ class Comment
      * @ORM\JoinColumn(nullable=false)
      */
     private $userID;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isDeleted = false;
     
     public function getId(): ?int
     {
@@ -89,6 +94,18 @@ class Comment
     public function setUserID(?User $userID): self
     {
         $this->userID = $userID;
+
+        return $this;
+    }
+
+    public function getIsDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setIsDeleted(bool $isDeleted): self
+    {
+        $this->isDeleted = $isDeleted;
 
         return $this;
     }
