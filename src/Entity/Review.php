@@ -66,6 +66,12 @@ class Review
      */
     private $comments;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=user::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $userID;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -213,5 +219,17 @@ class Review
        $criteria = ReviewRepository::createNonDeletedComments();
 
        return $this->comments->matching($criteria);
+    }
+
+    public function getUserID(): ?user
+    {
+        return $this->userID;
+    }
+
+    public function setUserID(?user $userID): self
+    {
+        $this->userID = $userID;
+
+        return $this;
     }
 }
