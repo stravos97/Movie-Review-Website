@@ -15,7 +15,7 @@
                             <input type="text"
                                    name="q"
                                    class="form-control"
-                                   value=""
+                                   value="{{ app.request.query.get('query') }}"
                                    placeholder="Search..."
                             >
                             <div class="input-group-append">

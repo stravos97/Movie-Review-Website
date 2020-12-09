@@ -19,6 +19,28 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
+    /**
+     * Method currently broken, can't search for more than one term
+     * @param string|null $term
+     * @return Comment[]
+     */
+    public function findAllWithSearch(?string $term)
+    {
+        $queryBuilder = $this->createQueryBuilder('comment')
+            ->innerJoin('comment.movieID', 'review')
+            ->innerJoin('comment.userID', 'user');
+
+        if ($term) {
+            $queryBuilder->andWhere('comment.commentBody LIKE :term OR review.movieTitle LIKE :term OR user.firstName LIKE :term')
+                ->setParameter('term', '%' . $term . '%')
+            ;
+        }
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Comment[] Returns an array of Comment objects
     //  */
