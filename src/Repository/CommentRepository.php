@@ -21,6 +21,9 @@ class CommentRepository extends ServiceEntityRepository
 
     /**
      * Method currently broken, can't search for more than one term
+     * addSelect makes sure we don't have more than one query when we are making a join.
+     * If the page has a lot of queries, because doctrine is making extra queries accross a relationship, join over that relationship and
+     * use addSelect, to fetch all the data you need at once
      * @param string|null $term
      * @return Comment[]
      */
@@ -28,7 +31,9 @@ class CommentRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->createQueryBuilder('comment')
             ->innerJoin('comment.movieID', 'review')
-            ->innerJoin('comment.userID', 'user');
+            ->innerJoin('comment.userID', 'user')
+            ->addSelect('review', 'user')
+        ;
 
         if ($term) {
             $queryBuilder->andWhere('comment.commentBody LIKE :term OR review.movieTitle LIKE :term OR user.firstName LIKE :term')
