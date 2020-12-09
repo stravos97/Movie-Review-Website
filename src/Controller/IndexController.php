@@ -5,15 +5,15 @@ use App\Entity\Article;
 use App\Entity\Review;
 use App\Form\NewArticle;
 use App\Repository\CommentRepository;
+use App\Repository\ReviewRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 
 /*
  * Dont forget comments start with /*
@@ -25,18 +25,36 @@ class IndexController extends AbstractController { //article controller
      * @Route("/" , name="article_list")
      * @Method({"GET"})
      */
-    public function index() {
+    public function index(ReviewRepository $repository, Request $request, PaginatorInterface $paginator): Response
+    {
 
         /*
          * This whole method will find all the article objects. It is then used to render the objects as a table on the homepage
          */
 
-        // return new Response('<h1>Hello<h1>');
-    $articles=$this->getDoctrine()->getRepository
-    (Review::class)->findAll();
+        $q=null;
+        if (!empty($_GET["q"])) {
+            $q = $_GET["q"];
+        }
+
+        $queryBuilder = $repository->getWithSearch($q);
+
+        /**
+         * We aren't responsible for executing the query, we are only responsible for building a query and passing it to the paginator
+         */
+        $pagination = $paginator->paginate(
+            $queryBuilder, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            2/*limit per page*/
+        );
 
 
-         return $this->render('articles/index.html.twig', array('articles' => $articles)); //we use this to generate article objects, each containing all of our article data
+
+
+        return $this->render('articles/index.html.twig', [
+            'pagination' => $pagination
+        ]);
+
     }
 
 

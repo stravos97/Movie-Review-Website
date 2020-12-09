@@ -1,14 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}SymphArt Articles{% endblock %}
+{% block title %}SymphArt Articles ({{ pagination.getTotalItemCount }}){% endblock %}
 
 {% block body %}
+    <form>
+        <div class="input-group mb-3">
+            <input type="text"
+                   name="q"
+                   class="form-control"
+                   value="{{ app.request.query.get('query') }}"
+                   placeholder="Search..."
+            >
+            <div class="input-group-append">
+                <button type="submit"
+                        class="btn btn-outline-secondary">
+                    <span class="fa fa-search"></span>
+                </button>
+            </div>
+        </div>
+    </form>
 
-
-    {% if articles %}
+    {% if pagination %}
             <div class="row card-group"  id="articles">
 
-    {% for article in articles %}
+    {% for article in pagination %}
                 <div class="col-sm-12 col-md-4">
                     <div class="card border-r text-center border-primary">
                         <div class="card-body">
@@ -34,11 +49,11 @@
 
     {% else %}
         <p>Sorry you have not articles to display<p>
-    {% endif %}       
+    {% endif %}
 
 
 
-
+    {{ knp_pagination_render(pagination) }}
 
 
 {% endblock %}
