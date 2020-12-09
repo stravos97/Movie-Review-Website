@@ -12,15 +12,19 @@
       <li class="nav-item active">
         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
       </li>
+      {% if is_granted('ROLE_USER') %}
       <li class="nav-item">
         <a class="nav-link" href="/article/new">New Article</a>
       </li>
+         {% if is_granted('ROLE_ADMIN') %}
       <li class="nav-item">
         <a class="nav-link" href="/admin/article">Manage Articles</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/admin/comment">Manage Comments</a>
       </li>
+         {% endif %}
+      {% endif %}
     </ul>
   </div>
 </div>
@@ -41,9 +45,22 @@
 
         <button class="btn btn-outline-success my-2 mr-3 my-sm-0"
                 type="submit">Search</button>
-          <li class="nav-item">
-            <a class="nav-link btn btn-success" href="/login">Login</a>
-          </li>
+          {% if is_granted('ROLE_USER') %}
+
+            <li class="nav-item">
+              <a class="nav-link btn btn-success" href="/logout">Logout</a>
+            </li>
+
+          {% else %}
+
+            <li class="nav-item">
+              <a class="nav-link btn btn-success" href="/login">Login</a>
+            </li>
+
+
+
+          {% endif %}
+
 
 
         </div>

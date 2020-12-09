@@ -8,6 +8,7 @@ use App\Repository\CommentRepository;
 use App\Repository\ReviewRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -59,6 +60,7 @@ class IndexController extends AbstractController { //article controller
 
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route ("/article/new", name="new_article")
      * @Method({"GET", "POST"})
      * @param Request $request
@@ -132,6 +134,7 @@ class IndexController extends AbstractController { //article controller
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/article/delete/{id}")
      * @Method({"DELETE"})
      */
@@ -149,6 +152,7 @@ class IndexController extends AbstractController { //article controller
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("/article/edit/{id}", name="edit_article")
      * Method({"GET", "POST"})
      */
