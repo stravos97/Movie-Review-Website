@@ -29,7 +29,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ article.movieTitle }}</h5>
                             <img class="card-img-top" src="..." alt="Card image cap">
-                            <p class="card-text">{{ article.summary }}</p>
+                            <p class="card-text">By {{ article.userID.firstName }}</p>
                             <a href="/article/{{ article.id }}" class="btn btn-primary border-r">Show</a>
                             <a href="/article/edit/{{ article.id }}" class="btn btn-secondary border-r">Edit</a>
                             {% if is_granted('ROLE_ADMIN') %}
