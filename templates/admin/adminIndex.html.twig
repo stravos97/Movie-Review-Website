@@ -1,40 +1,82 @@
-{% extends 'base.html.twig' %}
+{% extends 'content_base.html.twig' %}
 
 {% block title %}SymphArt Articles{% endblock %}
 
-{% block body %}
+{% block content_body %}
 
 
-    {% if articles %}
-    <table id="articles" class="table table-striped">
 
-        <thead>
-        <tr>
-            <th>Article Title</th>
-            <th>Actions</th>
-        </tr>
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Manage Articles</h1>
 
-        </thead>
-        <tbody>
 
-        {% for article in articles %}
-            <tr>
-                <td> {{ article.movieTitle }} </td>
-                <td>
-                    <a href="/article/{{ article.id }}" class="btn btn-light">Show</a>
-                    <a href="/article/edit/{{ article.id }}" class="btn btn-light">Edit</a>
 
-                </td>
-                <td>
-                    <a href="#" class="btn btn-danger delete-article" data-id="{{ article.id }}">Delete</a>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>Sorry you have not articles to display<p>
-    {% endif %}
+            <form>
+                <div class="input-group mb-3">
+                    <input type="text"
+                           name="q"
+                           class="form-control"
+                           value=""
+                           placeholder="Search..."
+                    >
+                    <div class="input-group-append">
+                        <button type="submit"
+                                class="btn btn-outline-secondary">
+                            <span class="fa fa-search"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Article</th>
+                    <th>Author</th>
+                    <th>Created</th>
+                    <th>Show</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for article in articles %}
+                    <tr>
+                        <td>
+                            <a href="/article/{{ article.id }}">
+                                {{ article.movieTitle }}
+                            </a>
+                        </td>
+                        <td>
+                            {{ article.id }}
+                        </td>
+                        <td>
+                            {{ article.date|date('d-m-y') }}
+                        </td>
+                        <td>
+                            <a href="/article/{{ article.id }}" class="btn btn-light">Show</a>
+                        </td>
+                        <td>
+                            <a href="/article/edit/{{ article.id }}" class="btn btn-light">Edit</a>
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-danger delete-article border-r" data-id="{{ article.id }}">Delete</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            Sorry you have not articles to display
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
 
     {% endblock %}
 

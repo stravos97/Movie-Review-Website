@@ -11,14 +11,23 @@ use Symfony\Component\Routing\Annotation\Route;
 class CommentAdminController extends AbstractController
 {
     /**
-     * Request is used to get POST or GET data
+     * Request is used to get POST or GET data.
      * @Route("/admin/comment", name="comment_admin")
      */
     public function index(CommentRepository $repository, Request $request): Response
     {
+
+
+
+
+        /**
+         * Method gets the query from the URL,
+         * then sends it to the comment repository where an inner join is performed so you can search and filter by search
+         */
+
+
+
       //  $query = $request->query->get('q'); //GET request //required code
-
-
         /**
          * Not proper fix, not sure why get request in symfony is not working. Tried using Controller instead if AbstractController
          */

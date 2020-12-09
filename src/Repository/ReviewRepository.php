@@ -25,6 +25,21 @@ class ReviewRepository extends ServiceEntityRepository
 //            ->addCriteria(self::createNonDeletedComments());
     }
 
+    public function findAllWithSearch(?string $term)
+    {
+        $queryBuilder = $this->createQueryBuilder('review');
+
+        if ($term) {
+            $queryBuilder->andWhere('review.movieTitle LIKE :term')
+                ->setParameter('term', '%' . $term . '%')
+            ;
+        }
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
+
     /**
      * The only static methods we should have in the repository
      * Needs to be static so we can use it inside article. That's because Entity classes don't have access to services.
