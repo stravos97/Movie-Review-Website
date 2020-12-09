@@ -34,5 +34,23 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+
+        # $ Used to to match this page only
+        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        #Require Authentication for every page
+        #- { path: ^/, roles: IS_AUTHENTICATED_FULLY }
+        #
+        # The above two commands together require you to login to access any page.
+
+        #If you don't care whether the user just logged in during the current session or before(using the remember me command)
+        #you can use this to protect the more sensitive pages like change password 17
+        #
+        # if you wanted to force EVERY URL to be protected
+        - { path: ^/change-password, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/, roles: IS_AUTHENTICATED_REMEMBERED }
+
+
         # - { path: ^/admin, roles: ROLE_ADMIN }
-         #- { path: ^/profile, roles: ROLE_USER }
+        # - { path: ^/profile, roles: ROLE_USER }
+
