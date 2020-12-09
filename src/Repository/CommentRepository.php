@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -25,9 +26,8 @@ class CommentRepository extends ServiceEntityRepository
      * If the page has a lot of queries, because doctrine is making extra queries accross a relationship, join over that relationship and
      * use addSelect, to fetch all the data you need at once
      * @param string|null $term
-     * @return Comment[]
      */
-    public function findAllWithSearch(?string $term)
+    public function getWithSearch(?string $term): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('comment')
             ->innerJoin('comment.movieID', 'review')
@@ -41,9 +41,7 @@ class CommentRepository extends ServiceEntityRepository
             ;
         }
 
-        return $queryBuilder
-            ->getQuery()
-            ->getResult();
+        return $queryBuilder;
     }
 
     // /**
@@ -75,3 +73,4 @@ class CommentRepository extends ServiceEntityRepository
     }
     */
 }
+

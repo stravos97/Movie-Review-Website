@@ -78,6 +78,12 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
+    "knplabs/knp-components": {
+        "version": "v3.0.0"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.4.1"
+    },
     "nikic/php-parser": {
         "version": "v4.10.2"
     },

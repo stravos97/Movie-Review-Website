@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Review;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -25,7 +26,7 @@ class ReviewRepository extends ServiceEntityRepository
 //            ->addCriteria(self::createNonDeletedComments());
     }
 
-    public function findAllWithSearch(?string $term)
+    public function getWithSearch(?string $term): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('review');
 
@@ -35,9 +36,7 @@ class ReviewRepository extends ServiceEntityRepository
             ;
         }
 
-        return $queryBuilder
-            ->getQuery()
-            ->getResult();
+        return $queryBuilder;
     }
 
     /**

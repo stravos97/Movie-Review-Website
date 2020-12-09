@@ -8,7 +8,7 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <h1>Manage Articles</h1>
+            <h1>Manage Articles  ({{ pagination.getTotalItemCount }})</h1>
 
 
 
@@ -41,7 +41,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for article in articles %}
+                {% for article in pagination %}
                     <tr>
                         <td>
                             <a href="/article/{{ article.id }}">
@@ -73,7 +73,7 @@
                 {% endfor %}
                 </tbody>
             </table>
-
+            {{ knp_pagination_render(pagination) }}
 
         </div>
     </div>
