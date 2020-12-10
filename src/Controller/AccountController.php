@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -30,8 +31,12 @@ class AccountController extends /**AbstractController**/ BaseController
         $logger->debug('Checking account page for' .$this->getUser()->getEmail());
        // dd($this->getUser());
 
-        return $this->render('account/index.html.twig', [
+        $comments = $this->getDoctrine()->getRepository(Comment::class)->findBy(array('userID' => $this->getUser()->getId()));
+        $picture = $this->getUser()->getPicture();
 
+        return $this->render('account/index.html.twig', [
+            'userInfo' => $comments,
+            'picture' => $picture
         ]);
     }
 
@@ -70,10 +75,9 @@ class AccountController extends /**AbstractController**/ BaseController
 
     /**
      * @IsGranted ("ROLE_SUPER_ADMIN_DELETEUSER")
-     *  @Route("/remove/{id}", name="display_All_Users")
-     * @Method({"DELETE"})
+     * @Route("userss/remove/{id}", methods={"DELETE"})
      */
-    public function deleteUser(Request $request, $id)
+    public function delete(Request $request, $id)
     {
        // var_dump($id);
 
