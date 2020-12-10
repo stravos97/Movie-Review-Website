@@ -41,11 +41,9 @@ class AccountController extends /**AbstractController**/ BaseController
      */
     public function displayAllUsers(UserRepository $repository, Request $request, PaginatorInterface $paginator): Response
     {
-        $query=null;
-        if (!empty($_GET["q"])) {
-            $q = $_GET["q"];
-        }
 
+
+        $query = $request->query->get('q');
 
 
 

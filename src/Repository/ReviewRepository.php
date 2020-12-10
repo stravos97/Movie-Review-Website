@@ -28,10 +28,13 @@ class ReviewRepository extends ServiceEntityRepository
 
     public function getWithSearch(?string $term): QueryBuilder
     {
-        $queryBuilder = $this->createQueryBuilder('review');
+        $queryBuilder = $this->createQueryBuilder('review')
+            ->innerJoin('review.userID', 'user')
+        ;
+
 
         if ($term) {
-            $queryBuilder->andWhere('review.movieTitle LIKE :term')
+            $queryBuilder->andWhere('review.movieTitle LIKE :term OR user.firstName LIKE :term')
                 ->setParameter('term', '%' . $term . '%')
             ;
         }

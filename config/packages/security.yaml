@@ -25,8 +25,11 @@ security:
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 2592000
+
+            switch_user: true
+
     role_hierarchy:
-        ROLE_ADMIN: [ROLE_ADMIN_COMMENT, ROLE_ADMIN_ARTICLE]
+        ROLE_ADMIN: [ROLE_ADMIN_COMMENT, ROLE_ADMIN_ARTICLE, ROLE_ALLOWED_TO_SWITCH]
         ROLE_USER:  []
         ROLE_SUPER_ADMIN: [ROLE_SUPER_ADMIN_DELETEUSER, ROLE_SUPER_ADMIN_DISPLAY_USER]
             # activate different ways to authenticate
@@ -51,8 +54,8 @@ security:
         #you can use this to protect the more sensitive pages like change password 17
         #
         # if you wanted to force EVERY URL to be protected
-        - { path: ^/change-password, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/, roles: IS_AUTHENTICATED_REMEMBERED }
+        #- { path: ^/change-password, roles: IS_AUTHENTICATED_FULLY }
+        #- { path: ^/, roles: IS_AUTHENTICATED_REMEMBERED }
 
 
         # - { path: ^/admin, roles: ROLE_ADMIN }

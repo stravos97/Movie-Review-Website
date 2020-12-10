@@ -10,7 +10,13 @@
 
 {% block content_body %}
     <div class="col-12">
-        <div class="row">
+
+        {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+            <div class="alert alert-warning" style="margin-bottom: 0;">
+                You are currently logged in as this user.
+            </div>
+        {% endif %}
+        <div class="row  mt-3">
             <div class="col-sm-12 col-md-4">
                 <img  class="profile-img-r img-fluid mb-5" src="https://thispersondoesnotexist.com/image">
             </div>
@@ -34,5 +40,13 @@
                 </div>
             </div>
         </div>
+        {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+        <div class="col-12">
+            <div class="row">
+                <a  href="/admin/displayUsers?_switch_user=_exit">Go Back</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
     </div>
 {% endblock %}

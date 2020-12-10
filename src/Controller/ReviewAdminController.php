@@ -19,7 +19,7 @@ use App\Entity\Review;
  * Class ReviewAdminController
  * @package App\Controller
  */
-class ReviewAdminController extends AbstractController
+class ReviewAdminController extends BaseController
 {
     /**
      * @Route ("/admin/article" , name="admin_article_list")
@@ -29,17 +29,13 @@ class ReviewAdminController extends AbstractController
     public function index(ReviewRepository $repository, Request $request, PaginatorInterface $paginator): Response
     {
 
-        $q=null;
-        if (!empty($_GET["q"])) {
-            $q = $_GET["q"];
-        }
-
+        $query = $request->query->get('q');
 
 
 
        //$reviews = $repository->findAllWithSearch($q);
 
-        $queryBuilder = $repository->getWithSearch($q);
+        $queryBuilder = $repository->getWithSearch($query);
 
         /**
          * We aren't responsible for executing the query, we are only responsible for building a query and passing it to the paginator

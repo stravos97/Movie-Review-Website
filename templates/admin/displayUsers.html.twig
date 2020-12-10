@@ -9,7 +9,7 @@
             <form>
                 <div class="input-group mb-3">
                     <input type="text"
-                           name="query"
+                           name="q"
                            class="form-control"
                            value=""
                            placeholder="Search..."
@@ -29,6 +29,7 @@
                     <th>First Name</th>
                     <th>Email address</th>
                     <th>Roles</th>
+                    <th>Show User</th>
                     <th>Delete</th>
                 </tr>
                 </thead>
@@ -44,8 +45,11 @@
 
                         <td>
                             {% for key in user.roles %}
-                            {{ key }}
+                            {{ key }},
                             {% endfor %}
+                        </td>
+                        <td>
+                            <a href="/account?_switch_user={{ user.email }}" class="btn btn-primary border-r">Show</a>
                         </td>
 
                         <td>

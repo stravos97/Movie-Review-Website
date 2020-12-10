@@ -24,6 +24,7 @@ class UserRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->createQueryBuilder('user');
 
+
         if ($term) {
             $queryBuilder->andWhere('user.email LIKE :term OR user.firstName LIKE :term')
                 ->setParameter('term', '%' . $term . '%')
