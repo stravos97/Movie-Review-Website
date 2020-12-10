@@ -1,0 +1,72 @@
+{% extends 'content_base.html.twig' %}
+
+{% block title %}SymphArt Articles{% endblock %}
+
+{% block content_body %}
+    <div class="row" id="deleteUser">
+        <div class="col-sm-12">
+            <h1>Manage Users ({{ pagination.getTotalItemCount }})</h1>
+            <form>
+                <div class="input-group mb-3">
+                    <input type="text"
+                           name="query"
+                           class="form-control"
+                           value=""
+                           placeholder="Search..."
+                    >
+                    <div class="input-group-append">
+                        <button type="submit"
+                                class="btn btn-outline-secondary">
+                            <span class="fa fa-search"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Email address</th>
+                    <th>Roles</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in pagination  %}
+                    <tr>
+                        <td>
+                            {{ user.firstName }}
+                        </td>
+                        <td>
+                            {{ user.email }}
+                        </td>
+
+                        <td>
+                            {% for key in user.roles %}
+                            {{ key }}
+                            {% endfor %}
+                        </td>
+
+                        <td>
+                            <a href="#" class="btn btn-danger delete-article border-r" data-id="{{ user.id }}">Delete</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            Sorry you have no users to display
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+{% endblock %}
+
+    {% block javascripts %}
+        <script src="/js/deleteUser.js"></script>
+    {% endblock %}

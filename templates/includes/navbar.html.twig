@@ -26,6 +26,11 @@
       <li class="nav-item">
         <a class="nav-link" href="/admin/comment">Manage Comments</a>
       </li>
+            {% if is_granted('ROLE_SUPER_ADMIN_DISPLAY_USER') %}
+           <li class="nav-item">
+             <a class="nav-link" href="/admin/displayUsers">Show All Users</a>
+           </li>
+              {% endif %}
          {% endif %}
       {% endif %}
     </ul>
@@ -46,7 +51,7 @@
 
         <div class="input-group-append">
 
-        <button class="btn btn-outline-success my-2 mr-2" type="submit">Search</button>
+        <button class="btn btn-outline-success my-2 m" type="submit">Search</button>
           {% if is_granted('ROLE_USER') %}
 
             <a class="btn btn-outline-success my-2 navbar-buttons" href="/logout">Logout</a>

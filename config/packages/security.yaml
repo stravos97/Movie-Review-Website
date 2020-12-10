@@ -25,6 +25,10 @@ security:
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 2592000
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_ADMIN_COMMENT, ROLE_ADMIN_ARTICLE]
+        ROLE_USER:  []
+        ROLE_SUPER_ADMIN: [ROLE_SUPER_ADMIN_DELETEUSER, ROLE_SUPER_ADMIN_DISPLAY_USER]
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
