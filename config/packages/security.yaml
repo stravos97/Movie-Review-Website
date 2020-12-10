@@ -30,7 +30,7 @@ security:
 
     role_hierarchy:
         ROLE_ADMIN: [ROLE_ADMIN_COMMENT, ROLE_ADMIN_ARTICLE, ROLE_ALLOWED_TO_SWITCH]
-        ROLE_USER:  []
+        ROLE_USER:  [ROLE_USER_COMMENT]
         ROLE_SUPER_ADMIN: [ROLE_SUPER_ADMIN_DELETEUSER, ROLE_SUPER_ADMIN_DISPLAY_USER]
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

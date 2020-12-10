@@ -70,11 +70,12 @@ class AccountController extends /**AbstractController**/ BaseController
 
     /**
      * @IsGranted ("ROLE_SUPER_ADMIN_DELETEUSER")
-     *  @Route("/remove/${id}", name="display_All_Users")
+     *  @Route("/remove/{id}", name="display_All_Users")
      * @Method({"DELETE"})
      */
     public function deleteUser(Request $request, $id)
     {
+       // var_dump($id);
 
         $user = $this->getDoctrine()->getRepository(User::class)->findBy($id);
         //var_dump($user);

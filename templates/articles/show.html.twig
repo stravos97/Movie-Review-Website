@@ -15,8 +15,24 @@
                 <p class="justify-text">{{ article.messageBody }}</p>
             </div>
             <hr>
+
+            {# Method allows for form to be sent and extracted. To extract data, name must be given for each field #}
+            {# If you need to extract and reference the id number which is labeled like this, {} do it like below, where id: si what was specified in the controller url #}
             <div class="col-12">
                 <h2 class="mt-5 mb-4">{{ article.NonRemovedComments|length }} comments</h2>
+                {% if is_granted('ROLE_USER_COMMENT') %}
+
+                <form method="POST" action="{{ path('article_submit_comment', {id: article.id}) }}">
+                    <div class="input-group">
+                        <textarea class="form-control" name="commentData" aria-label="With textarea"></textarea>
+                        <div class="input-group-prepend">
+                        <input type="hidden" name="currentUser" value="{{ app.user.firstName }}">
+                            <button class="btn btn-outline-secondary" value="Submit" name="submitButton" type="submit">Submit</button>
+                        </div>
+                </form>
+
+                    {% endif %}
+                </div>
             {% for comment in article.NonRemovedComments %}
                 <div class="row">
                     <div class="col-sm-12 col-md-2">

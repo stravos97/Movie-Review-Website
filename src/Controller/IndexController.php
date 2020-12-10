@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Comment;
 use App\Entity\Review;
 use App\Form\NewArticle;
 use App\Repository\CommentRepository;
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 
 /*
@@ -185,6 +187,8 @@ class IndexController extends AbstractController { //article controller
         ));
     }
 
+
+
     /**
      * @Route("/article/{id}", name="article_show")
      */ //
@@ -207,6 +211,59 @@ class IndexController extends AbstractController { //article controller
         $article = $this->getDoctrine()->getRepository(Review::class)->find($id);
 
         return $this->render('articles/show.html.twig', array('article' => $article)); //only contains a single article
+    }
+
+    /**
+     * Request is used to get the form data
+     *
+     * @Route("/article/{id}/addComment", name="article_submit_comment", methods={"POST"})
+     *
+     * @return Response
+     */
+    public function submitComment($id, Request $request, Review $review, EntityManagerInterface $entityManager): Request
+    {
+
+//    $commentBody = $request->request->get('commentData');
+//
+//
+//
+//
+//  //  dd($request->request->all());
+//
+//
+//        $userID = $request->request->get('currentUser');
+//        $isDeleted = 0;
+//
+//
+//
+//        $comment = new Comment();
+//        dd($comment);
+        //$movieID = $this->getDoctrine()->getRepository(Review::class)->find($id);
+
+//       $comment->setCommentBody($commentBody);
+//       $comment->setDate(new \DateTimeImmutable());
+//        $comment->setIsDeleted($isDeleted);
+//        $comment->setTestMovieID($movieID->getId());
+//        $comment->setTestUserID($userID);
+//        //dd($comment);
+
+//        $form = $this->createForm(Comment::class, $movieID);
+//
+//        /**
+//         * Checks to see if the form is submitted and sends the completed form to the database
+//         */
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//
+//            $entityManager = $this->getDoctrine()->getManager();
+//            $entityManager->persist($comment);
+//            $entityManager->flush();
+//
+//            return $this->redirectToRoute('article_list');
+//        }
+
+
     }
 
 
