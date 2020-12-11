@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-3">
 <div class="container">
 
-  <a class="navbar-brand" href="/">IMDB</a>
+  <a class="navbar-brand" href="{{ path('article_list') }}">IMDB</a>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -10,25 +10,25 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{{ path('article_list') }}">Home <span class="sr-only">(current)</span></a>
       </li>
       {% if is_granted('ROLE_USER') %}
       <li class="nav-item">
-        <a class="nav-link" href="/article/new">New Article</a>
+        <a class="nav-link" href="{{ path('new_article') }}">New Article</a>
       </li>
         <li class="nav-item">
-          <a class="nav-link" href="/account">My account</a>
+          <a class="nav-link" href="{{ path('article_account') }}">My account</a>
         </li>
          {% if is_granted('ROLE_ADMIN') %}
       <li class="nav-item">
-        <a class="nav-link" href="/admin/article">Manage Articles</a>
+        <a class="nav-link" href="{{ path('admin_article_list') }}">Manage Articles</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/admin/comment">Manage Comments</a>
+        <a class="nav-link" href="{{ path('comment_admin') }}">Manage Comments</a>
       </li>
             {% if is_granted('ROLE_SUPER_ADMIN_DISPLAY_USER') %}
            <li class="nav-item">
-             <a class="nav-link" href="/admin/displayUsers">Show All Users</a>
+             <a class="nav-link" href="{{ path('deleteUser') }}">Show All Users</a>
            </li>
               {% endif %}
          {% endif %}
@@ -51,7 +51,7 @@
 
         <div class="input-group-append">
 
-        <button class="btn btn-outline-success my-2 m" type="submit">Search</button>
+        <button class="btn btn-outline-success my-2" type="submit">Search</button>
           {% if is_granted('ROLE_USER') %}
 
             <a class="btn btn-outline-success my-2 navbar-buttons" href="/logout">Logout</a>
