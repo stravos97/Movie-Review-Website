@@ -42,7 +42,7 @@
                     </div>
                     <div class="col-sm-12 col-md-10">
                         <h3>{{ comment.userID.firstName }}</h3>
-                        <span> about {{ comment.date|date('H:i:s d-m-y') }}</span>
+                        <small> Sent at {{ comment.date|date('H:i:s') }}</small>
                         <p class="justify-text">{{ comment.commentBody }}</p>
                         {% if comment.isDeleted %}
                             <span class="fa fa-close"></span> deleted

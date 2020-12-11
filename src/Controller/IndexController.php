@@ -194,6 +194,61 @@ class IndexController extends BaseController { //article controller
 
 
     /**
+     * Request is used to get the form data
+     *
+     * @Route("/article/{id}", name="article_submit_comment", methods={"POST"})
+     *
+     * @return Response
+     */
+    public function submitComment($id, Request $request, EntityManagerInterface $entityManager)
+    {
+
+//    dd($commentBody);
+//        dd();
+//
+//  //  dd($request->request->all());
+//
+//        $userID = $request->request->get('currentUser');
+//        $isDeleted = 0;
+        // dd($id);
+//
+//
+        $movieID = $this->getDoctrine()->getRepository(Review::class)->find($id);
+        // dd($movieID);
+//        $datee = $movieID->getDate();
+        $commentBody = $request->request->get('commentData');
+        $userId = $this->getUser();
+        $comment = new Comment($movieID, $commentBody, $userId, false);
+//        dd($comment);
+
+//        dd($movieID);
+//       $comment->setCommentBody($commentBody);
+//       $comment->setDate(new \DateTimeImmutable());
+//        $comment->setIsDeleted($isDeleted);
+//        $comment->setTestMovieID($movieID->getId());
+//        $comment->setTestUserID($userID);
+//        //dd($comment);
+
+        $form = $this->createFormBuilder($comment);
+//dd($form);
+//        /**
+//         * Checks to see if the form is submitted and sends the completed form to the database
+//         */
+
+        if ($form) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+            //return $this->redirect($url, 301);
+            return $this->redirect($request->getUri());
+        }
+        return $this->render('articles/show.html.twig');
+//        return $this->render('../articles/show.html.twig');
+
+
+    }
+
+    /**
      * @Route("/article/{id}", name="article_show")
      */ //
     public function show($id){ //gets the id from the {} above
@@ -217,58 +272,7 @@ class IndexController extends BaseController { //article controller
         return $this->render('articles/show.html.twig', array('article' => $article)); //only contains a single article
     }
 
-    /**
-     * Request is used to get the form data
-     *
-     * @Route("/article/{id}", name="article_submit_comment", methods={"POST"})
-     *
-     * @return Response
-     */
-    public function submitComment($id, Request $request, EntityManagerInterface $entityManager): Request
-    {
 
-//    dd($commentBody);
-//        dd();
-//
-//  //  dd($request->request->all());
-//
-//
-//        $userID = $request->request->get('currentUser');
-//        $isDeleted = 0;
-//
-//
-//
-        $movieID = $this->getDoctrine()->getRepository(Review::class)->find($id);
-//        $datee = $movieID->getDate();
-        $commentBody = $request->request->get('commentData');
-        $userId = $this->getUser();
-        $comment = new Comment($movieID, $commentBody, $userId, false);
-//        dd($comment);
-
-//        dd($movieID);
-//       $comment->setCommentBody($commentBody);
-//       $comment->setDate(new \DateTimeImmutable());
-//        $comment->setIsDeleted($isDeleted);
-//        $comment->setTestMovieID($movieID->getId());
-//        $comment->setTestUserID($userID);
-//        //dd($comment);
-
-        $form = $this->createFormBuilder($comment);
-//dd($form);
-//        /**
-//         * Checks to see if the form is submitted and sends the completed form to the database
-//         */
-
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($comment);
-            $entityManager->flush();
-
-            return $this->render('articles/show.html.twig');
-//        return $this->render('../articles/show.html.twig');
-
-
-    }
 
 
 //    /**
