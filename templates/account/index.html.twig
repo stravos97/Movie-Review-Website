@@ -27,24 +27,34 @@
         {% endif %}
         <div class="row  mt-3">
             <div class="col-sm-12 col-md-4">
-                <img  class="profile-img-r img-fluid mb-5" src="https://thispersondoesnotexist.com/image">
+                {% if userInfo %}
+                <img  class="profile-img-r img-fluid mb-5" src="{{  asset('images//users/')~picture }}">
+                    {% else %}
+                        <h1>No image to display</h1>
+                {% endif %}
+
             </div>
             <div class="col-sm-12 col-md-8">
                 <div class="row mt-5">
                     <div class="col-12 text-center">
                         <h1 class="mb-4" >Welcome, {{ app.user.firstName }}</h1>
                     </div>
+                    {% if userInfo %}
                     <div class="col-sm-12 col-md-6 text-center">
                         <div class="border-r profile-info-container">
                             <p class="lead" >comments</p>
-                            <p>123</p>
+                            <p>{{ userInfo|length }}</p>
                         </div>
+                        {% endif %}
                     </div>
                     <div class="col-sm-12 col-md-6 text-center">
+                        {% if userInfo %}
+
                         <div class="border-r profile-info-container">
-                            <p class="lead" >likes</p>
-                            <p>123</p>
+                            <p class="lead" >Deleted Messages</p>
+                            <p>{{ sizeOfDeleted }}</p>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

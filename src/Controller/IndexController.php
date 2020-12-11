@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\Review;
+use App\Entity\User;
 use App\Form\NewArticle;
 use App\Repository\CommentRepository;
 use App\Repository\ReviewRepository;
@@ -68,15 +69,22 @@ class IndexController extends AbstractController { //article controller
      * @param Request $request
      *
      */
-    public function new(Request $request){
+    public function new(Request $request, EntityManagerInterface $entityManager){
 
         /*
          * This entire method will create a form, when clicking the 'new article' button.
          * It will render it, then allow the user to submit a completed form once the requirements are met
          */
-        $review = new Review();
-        $form = $this->createForm(NewArticle::class, $review); // YOu don't need to get the data ->getData. You pass the whole form in
 
+        $review = new Review();
+        $startTime = new \DateTime('@'.strtotime('now'));
+        $review->setUserID($this->getUser());
+
+        $form = $this->createForm(
+            NewArticle::class,
+            $review
+        ); // YOu don't need to get the data ->getData. You pass the whole form in
+    //dd($form);
         /**
          * Checks to see if the form is submitted and sends the completed form to the database
          */
@@ -88,7 +96,6 @@ class IndexController extends AbstractController { //article controller
             $entityManager->persist($review);
             $entityManager->flush();
 
-            return $this->redirectToRoute('article_list');
         }
 
         return $this->render('articles/new.html.twig', [
@@ -216,17 +223,15 @@ class IndexController extends AbstractController { //article controller
     /**
      * Request is used to get the form data
      *
-     * @Route("/article/{id}/addComment", name="article_submit_comment", methods={"POST"})
+     * @Route("/article/{id}", name="article_submit_comment", methods={"POST"})
      *
      * @return Response
      */
-    public function submitComment($id, Request $request, Review $review, EntityManagerInterface $entityManager): Request
+    public function submitComment($id, Request $request, EntityManagerInterface $entityManager): Request
     {
 
-//    $commentBody = $request->request->get('commentData');
-//
-//
-//
+//    dd($commentBody);
+//        dd();
 //
 //  //  dd($request->request->all());
 //
@@ -236,10 +241,14 @@ class IndexController extends AbstractController { //article controller
 //
 //
 //
-//        $comment = new Comment();
+        $movieID = $this->getDoctrine()->getRepository(Review::class)->find($id);
+//        $datee = $movieID->getDate();
+        $commentBody = $request->request->get('commentData');
+        $userId = $this->getUser();
+        $comment = new Comment($movieID, $commentBody, $userId, false);
 //        dd($comment);
-        //$movieID = $this->getDoctrine()->getRepository(Review::class)->find($id);
 
+//        dd($movieID);
 //       $comment->setCommentBody($commentBody);
 //       $comment->setDate(new \DateTimeImmutable());
 //        $comment->setIsDeleted($isDeleted);
@@ -247,21 +256,19 @@ class IndexController extends AbstractController { //article controller
 //        $comment->setTestUserID($userID);
 //        //dd($comment);
 
-//        $form = $this->createForm(Comment::class, $movieID);
-//
+        $form = $this->createFormBuilder($comment);
+//dd($form);
 //        /**
 //         * Checks to see if the form is submitted and sends the completed form to the database
 //         */
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//
-//            $entityManager = $this->getDoctrine()->getManager();
-//            $entityManager->persist($comment);
-//            $entityManager->flush();
-//
-//            return $this->redirectToRoute('article_list');
-//        }
+
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->render('articles/show.html.twig');
+//        return $this->render('../articles/show.html.twig');
 
 
     }

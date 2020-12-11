@@ -29,14 +29,27 @@ class AccountController extends /**AbstractController**/ BaseController
     public function index(LoggerInterface $logger): Response
     {
         $logger->debug('Checking account page for' .$this->getUser()->getEmail());
-       // dd($this->getUser());
+
 
         $comments = $this->getDoctrine()->getRepository(Comment::class)->findBy(array('userID' => $this->getUser()->getId()));
         $picture = $this->getUser()->getPicture();
+       // dd($comments);
+        $sizeOfDeleted = 0;
+
+        if ($comments){
+            foreach ($comments as $size){
+                if ($size->getIsDeleted()){
+                    $sizeOfDeleted++;
+
+                }
+            }
+        }
+
 
         return $this->render('account/index.html.twig', [
             'userInfo' => $comments,
-            'picture' => $picture
+            'picture' => $picture,
+            'sizeOfDeleted' => $sizeOfDeleted
         ]);
     }
 

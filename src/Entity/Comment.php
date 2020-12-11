@@ -44,7 +44,25 @@ class Comment
      * @ORM\Column(type="boolean")
      */
     private $isDeleted = false;
-    
+
+    /**
+     * Comment constructor.
+     * @param $id
+     * @param $date
+     * @param $movieID
+     * @param $commentBody
+     * @param $userID
+     * @param bool $isDeleted
+     */
+    public function __construct($movieID, $commentBody, $userID, bool $isDeleted)
+    {
+        $this->date = new \DateTimeImmutable();
+        $this->movieID = $movieID;
+        $this->commentBody = $commentBody;
+        $this->userID = $userID;
+        $this->isDeleted = $isDeleted;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

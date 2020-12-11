@@ -4,18 +4,28 @@
 namespace App\Form;
 
 
+use http\Client\Curl\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Security\Core\Security;
 
 class NewArticle extends AbstractType
 {
+
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('movie_title', TextType::class, array('attr' => array('class' => 'form-control')))
+            ->add('movie_title', TextType::class, array(
+                'required' => true,
+                'attr' => array('class' => 'form-control')
+            ))
             ->add('summary', TextareaType::class, array(
                 'required' => true,
                 'attr' => array('class' => 'form-control')
@@ -24,12 +34,22 @@ class NewArticle extends AbstractType
                 'required' => true,
                 'attr' => array('class' => 'form-control')
             ))
+            ->add('rating', TextType::class, array('attr' => array('class' => 'form-control')))
+            ->add('director', TextType::class, array('attr' => array('class' => 'form-control')))
+            ->add('actors', TextType::class, array('attr' => array('class' => 'form-control')))
+         //   ->add('user_id_id', IntegerType::class, array('attr' => array('class' => $options['data']['user']->getId())) )
 
             ->add('save', SubmitType::class, array(
                 'label' => 'Create',
                 'attr' => array('class' => 'btn btn-primary mt-3')
             ))
             ;
+//        $testt = cast
+//
+//        $var = (User::class) $options['data']['user'];
+
+//        dd();
     }
+
 
 }
