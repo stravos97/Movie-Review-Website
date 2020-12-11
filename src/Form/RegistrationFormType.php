@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -27,7 +28,10 @@ class RegistrationFormType extends AbstractType
                 ]
             ])
             ->add('firstName')
-            ->add('picture', FileType::class, array('mapped' => false))
+            ->add('picture', FileType::class, array('mapped' => false, 'constraints' => array(new Image([
+                'maxSize' => '5M',
+                'sizeNotDetectedMessage' => 'The size of the image could not be detected.'
+            ]))))
 
             ->add('plainPassword', RepeatedType::class, [
                 // instead of being set onto the object directly,
