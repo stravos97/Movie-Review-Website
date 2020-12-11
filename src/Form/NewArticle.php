@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -34,12 +35,13 @@ class NewArticle extends AbstractType
                 'required' => true,
                 'attr' => array('class' => 'form-control')
             ))
-            ->add('rating', TextType::class, array('attr' => array('class' => 'form-control')))
+            ->add('rating', NumberType::class, array('attr' => array('min' => '1',
+                'max' => '10', 'class' => 'form-control')))
 
             ->add('director', TextType::class, array('attr' => array('class' => 'form-control')))
 
             ->add('actors', TextType::class, array('attr' => array('class' => 'form-control')))
-            ->add('duration', DateTimeType::class, array('attr' => array('class' => 'form-control')))
+            ->add('duration', null, array('widget' => 'single_text'))
 
             ->add('picture', TextType::class, array('attr' => array('class' => 'form-control')))
 
