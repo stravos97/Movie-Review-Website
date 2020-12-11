@@ -86,7 +86,7 @@ class ArticleAdminController extends AbstractController
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN_ARTICLE")
+     * @IsGranted("ROLE_USER")
      * @Route("/article/edit/{id}", name="edit_article")
      * @Method({"GET", "POST"})
      * @param Request $request
