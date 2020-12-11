@@ -58,8 +58,9 @@
 
           {% else %}
 
-            <a class="btn btn-outline-success my-2 navbar-buttons" href="/login">Login</a>
+            <a class="btn btn-outline-success my-2 navbar-buttons" href="{{ path('website_login') }}">Login</a>
 
+            <a class="btn btn-outline-success my-2 navbar-buttons" href="{{ path('app_register') }}">Register</a>
           {% endif %}
 
 
