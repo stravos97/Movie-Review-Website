@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,6 +51,25 @@ class ArticleAdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            /**
+             * Upload image, code, no validation
+             */
+
+            /** @var UploadedFile $uploadedFile */
+            $uploadedFile = ($form['picture']->getData());
+
+            $destination = $this->getParameter('kernel.project_dir').'/public/images/films';
+            $originalFilename = pathinfo($uploadedFile->getClientOriginalName().'-'.uniqid().'.'.$uploadedFile->guessExtension());
+            // $newFilename = $this->generateUniqueFileName().'.'.$uploadedFile->guessExtension();
+
+            $uploadedFile->move(
+                $destination,
+                $uploadedFile->getClientOriginalName()
+            );
+
+            $review->setPicture($uploadedFile->getClientOriginalName());
+
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($review);
@@ -125,6 +145,24 @@ class ArticleAdminController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
 
+            /**
+             * Upload image, code, no validation
+             */
+
+            /** @var UploadedFile $uploadedFile */
+            $uploadedFile = ($form['picture']->getData());
+
+            $destination = $this->getParameter('kernel.project_dir').'/public/images/films';
+            $originalFilename = pathinfo($uploadedFile->getClientOriginalName().'-'.uniqid().'.'.$uploadedFile->guessExtension());
+           // $newFilename = $this->generateUniqueFileName().'.'.$uploadedFile->guessExtension();
+
+            $uploadedFile->move(
+               $destination,
+                $uploadedFile->getClientOriginalName()
+            );
+
+            $review->setPicture($uploadedFile->getClientOriginalName());
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
 
@@ -134,6 +172,15 @@ class ArticleAdminController extends AbstractController
         return $this->render('articles/edit.html.twig', array(
             'form' => $form->createView()
         ));
+    }
+
+    /**
+     * @Route ("/admin/upload/test", name="upload_test")
+     */
+    public function temporaryUploadAction(Request $request)
+    {
+
+    dd($request->files->get('image'));
     }
 
 
