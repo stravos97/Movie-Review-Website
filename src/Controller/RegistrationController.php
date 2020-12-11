@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\LoginAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,6 +25,31 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            /**
+             * Upload image, code, no validation
+             */
+
+            /** @var UploadedFile $uploadedFile */
+            $uploadedFile = ($form['picture']->getData());
+
+            $destination = $this->getParameter('kernel.project_dir').'/public/images/users';
+            $originalFilename = pathinfo($uploadedFile->getClientOriginalName().'-'.uniqid().'.'.$uploadedFile->guessExtension());
+            // $newFilename = $this->generateUniqueFileName().'.'.$uploadedFile->guessExtension();
+
+            $uploadedFile->move(
+                $destination,
+                $uploadedFile->getClientOriginalName()
+            );
+
+            $user->setPicture($uploadedFile->getClientOriginalName());
+
+
+
+
+
+
+
             // encode the plain password
             $user->setPassword(
                 $passwordEncoder->encodePassword(

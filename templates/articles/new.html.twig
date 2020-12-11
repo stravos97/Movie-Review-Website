@@ -5,7 +5,15 @@
 {% block body %}
     <h1> Your review</h1>
 {{ form_start(form) }} {# This is a post request to the same URL, the same route that the get request comes from #}
-    {{ form_widget(form) }} {# This is used to render a form text box #}
+    {{ form_row(form.movie_title) }}
+    {{ form_row(form.summary) }}
+    {{ form_row(form.message_body) }}
+    {{ form_row(form.rating) }}
+    {{ form_row(form.director) }}
+    {{ form_row(form.actors) }}
+    {{ form_row(form.duration) }}
+    {{ form_row(form.picture) }}
+
 
     {{ form_end(form) }}
 {% endblock %}
