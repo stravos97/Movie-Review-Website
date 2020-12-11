@@ -123,16 +123,16 @@ class ArticleAdminController extends AbstractController
          * Allows us to deny  access to something if we don't own it and if we are not an admin
          */
 
-        if ($review->getUserID() != $this->getUser() && !$this->isGranted('ROLE_ADMIN_ARTICLE')){
-            throw $this->createAccessDeniedException('No Access');
-        }
+//        if ($review->getUserID() != $this->getUser() && !$this->isGranted('ROLE_ADMIN_ARTICLE')){
+//            throw $this->createAccessDeniedException('No Access');
+//        }
 
         /**
          * Acts as a voter to manage whether we can get access, mange is a permission attribute
          */
-//        if (!$this->isGranted('EDIT', $review)){
-//            throw $this->createAccessDeniedException('No Access');
-//        }
+        if (!$this->isGranted('EDIT', $review)){
+            throw $this->createAccessDeniedException('No Access');
+        }
 
         $review = new Review();
         $review = $this->getDoctrine()->getRepository(Review::class)->find($id);
