@@ -99,43 +99,6 @@ class IndexController extends BaseController { //article controller
             'form' => $form->createView(),
         ]);
 
-        //$article = new Article();
-//        /*
-//         * Creates a form with the title and body fields. This form is used to create a new Article
-//         * The title is required and the body is not;
-//         */
-//        $form = $this->createFormBuilder($article) //creating the form here with all the attributes and classes
-//            ->add('title', TextType::class, array('attr' => array('class' => 'form-control')))
-//            ->add('body', TextareaType::class, array(
-//                'required' => true,
-//                'attr' => array('class' => 'form-control')
-//            ))
-//            ->add('save', SubmitType::class, array(
-//                'label' => 'Create',
-//                'attr' => array('class' => 'btn btn-primary mt-3')
-//            ))
-//            ->getForm();
-//
-//        /**
-//         * Checks to see if the form is submitted and sends the completed form to the database
-//         */
-//        $form->handleRequest($request);
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $article = $form->getData();
-//
-//            $entityManager = $this->getDoctrine()->getManager();
-//            $entityManager->persist($article);
-//            $entityManager->flush();
-//
-//            return $this->redirectToRoute('article_list');
-//        }
-//
-//        /*
-//         * Sends a GET request to the twig page, and shows the form based on the attributes set above
-//         */
-//        return $this->render('articles/new.html.twig', array(
-//            'form' => $form->createView() //we are passing form->crateView as form
-//        ));
 
     }
 
