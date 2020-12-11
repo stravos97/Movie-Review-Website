@@ -35,9 +35,13 @@ class NewArticle extends AbstractType
                 'attr' => array('class' => 'form-control')
             ))
             ->add('rating', TextType::class, array('attr' => array('class' => 'form-control')))
+
             ->add('director', TextType::class, array('attr' => array('class' => 'form-control')))
+
             ->add('actors', TextType::class, array('attr' => array('class' => 'form-control')))
-         //   ->add('user_id_id', IntegerType::class, array('attr' => array('class' => $options['data']['user']->getId())) )
+            ->add('duration', DateTimeType::class, array('attr' => array('class' => 'form-control')))
+
+            ->add('picture', TextType::class, array('attr' => array('class' => 'form-control')))
 
             ->add('save', SubmitType::class, array(
                 'label' => 'Create',

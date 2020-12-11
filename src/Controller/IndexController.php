@@ -24,7 +24,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  * ROUTES have to start with /** . If you don't do this you will get an unexpected error. Method won't ever be reached, therefore won't be run
  */
 
-class IndexController extends AbstractController { //article controller
+class IndexController extends BaseController { //article controller
     /**
      * @Route("/" , name="article_list")
      * @Method({"GET"})
@@ -36,10 +36,7 @@ class IndexController extends AbstractController { //article controller
          * This whole method will find all the article objects. It is then used to render the objects as a table on the homepage
          */
 
-        $q=null;
-        if (!empty($_GET["q"])) {
-            $q = $_GET["q"];
-        }
+        $q = $request->query->get('q');
 
         $queryBuilder = $repository->getWithSearch($q);
 
@@ -49,7 +46,7 @@ class IndexController extends AbstractController { //article controller
         $pagination = $paginator->paginate(
             $queryBuilder, /* query NOT result */
             $request->query->getInt('page', 1)/*page number*/,
-            2/*limit per page*/
+            6/*limit per page*/
         );
 
 
@@ -95,7 +92,7 @@ class IndexController extends AbstractController { //article controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($review);
             $entityManager->flush();
-
+            return $this->redirectToRoute('article_list');
         }
 
         return $this->render('articles/new.html.twig', [

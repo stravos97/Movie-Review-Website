@@ -38,7 +38,7 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-2">
                         <img  class="profile-img-r img-fluid mb-5"
-                              src="https://thispersondoesnotexist.com/image">
+                              src="{{ asset('images//users/')~comment.userID.picture }}">
                     </div>
                     <div class="col-sm-12 col-md-10">
                         <h3>{{ comment.userID.firstName }}</h3>

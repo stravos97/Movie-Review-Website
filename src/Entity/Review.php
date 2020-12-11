@@ -72,6 +72,16 @@ class Review
      */
     private $userID;
 
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $duration;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $picture;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -229,6 +239,30 @@ class Review
     public function setUserID(?user $userID): self
     {
         $this->userID = $userID;
+
+        return $this;
+    }
+
+    public function getDuration(): ?\DateTimeInterface
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(?\DateTimeInterface $duration): self
+    {
+        $this->duration = $duration;
+
+        return $this;
+    }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(string $picture): self
+    {
+        $this->picture = $picture;
 
         return $this;
     }
