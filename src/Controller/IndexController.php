@@ -1,21 +1,15 @@
 <?php
 namespace App\Controller;
 
-use App\Entity\Article;
-use App\Entity\Comment;
+
 use App\Entity\Review;
-use App\Entity\User;
-use App\Form\NewArticle;
-use App\Repository\CommentRepository;
 use App\Repository\ReviewRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Profiler\Profiler;
 
 
 
@@ -25,12 +19,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 
 class IndexController extends BaseController { //article controller
+
     /**
      * @Route("/" , name="article_list")
      * @Method({"GET"})
      */
-    public function index(ReviewRepository $repository, Request $request, PaginatorInterface $paginator): Response
+    public function index(ReviewRepository $repository, Request $request, PaginatorInterface $paginator, ?Profiler $profiler): Response
     {
+
+        // $profiler won't be set if your environment doesn't have the profiler (like prod, by default)
+        if (null !== $profiler) {
+            // if it exists, disable the profiler for this particular controller action
+            $profiler->disable();
+        }
+
 
         /*
          * This whole method will find all the article objects. It is then used to render the objects as a table on the homepage
@@ -62,7 +64,13 @@ class IndexController extends BaseController { //article controller
     /**
      * @Route("/article/{id}", name="article_show")
      */ //
-    public function show($id){ //gets the id from the {} above
+    public function show($id, ?Profiler $profiler){ //gets the id from the {} above
+
+        // $profiler won't be set if your environment doesn't have the profiler (like prod, by default)
+        if (null !== $profiler) {
+            // if it exists, disable the profiler for this particular controller action
+            $profiler->disable();
+        }
 
         //$comments = $commentRepository->findBy(['movieID' => $review]); //manual way of retrieving comments
 

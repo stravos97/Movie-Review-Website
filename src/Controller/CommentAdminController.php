@@ -5,10 +5,10 @@ namespace App\Controller;
 use App\Repository\CommentRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Profiler\Profiler;
 
 /**
  * @IsGranted("ROLE_ADMIN")
@@ -21,8 +21,14 @@ class CommentAdminController extends BaseController
      * Request is used to get POST or GET data.
      * @Route("/admin/comment", name="comment_admin")
      */
-    public function index(CommentRepository $repository, Request $request, PaginatorInterface $paginator): Response
+    public function index(CommentRepository $repository, Request $request, PaginatorInterface $paginator, ?Profiler $profiler): Response
     {
+
+        // $profiler won't be set if your environment doesn't have the profiler (like prod, by default)
+        if (null !== $profiler) {
+            // if it exists, disable the profiler for this particular controller action
+            $profiler->disable();
+        }
 
     //$this->denyAccessUnlessGranted('ROLE_ADMIN'); //another way to deny access for a simple method
 

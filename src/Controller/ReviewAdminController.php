@@ -7,12 +7,11 @@ namespace App\Controller;
 use App\Repository\ReviewRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use App\Entity\Review;
+use Symfony\Component\HttpKernel\Profiler\Profiler;
 
 /**
  * @IsGranted("ROLE_ADMIN")
@@ -26,8 +25,13 @@ class ReviewAdminController extends BaseController
      * @Method ({"GET"})
      * @return mixed
      */
-    public function index(ReviewRepository $repository, Request $request, PaginatorInterface $paginator): Response
+    public function index(ReviewRepository $repository, Request $request, PaginatorInterface $paginator, ?Profiler $profiler): Response
     {
+        // $profiler won't be set if your environment doesn't have the profiler (like prod, by default)
+        if (null !== $profiler) {
+            // if it exists, disable the profiler for this particular controller action
+            $profiler->disable();
+        }
 
         $query = $request->query->get('q');
 

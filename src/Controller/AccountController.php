@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Profiler\Profiler;
 
 /**
  *
@@ -24,8 +25,15 @@ class AccountController extends /**AbstractController**/ BaseController
      * To log the email address of who is logged in, we use logger
      * @Route("/account", name="article_account")
      */
-    public function index(LoggerInterface $logger): Response
+    public function index(LoggerInterface $logger, ?Profiler $profiler): Response
     {
+
+        // $profiler won't be set if your environment doesn't have the profiler (like prod, by default)
+        if (null !== $profiler) {
+            // if it exists, disable the profiler for this particular controller action
+            $profiler->disable();
+        }
+
         $logger->debug('Checking account page for' .$this->getUser()->getEmail());
 
 
@@ -55,8 +63,14 @@ class AccountController extends /**AbstractController**/ BaseController
      * @IsGranted ("ROLE_SUPER_ADMIN_DISPLAY_USER")
      * @Route("/admin/displayUsers", name="deleteUser")
      */
-    public function displayAllUsers(UserRepository $repository, Request $request, PaginatorInterface $paginator): Response
+    public function displayAllUsers(UserRepository $repository, Request $request, PaginatorInterface $paginator, ?Profiler $profiler): Response
     {
+
+        // $profiler won't be set if your environment doesn't have the profiler (like prod, by default)
+        if (null !== $profiler) {
+            // if it exists, disable the profiler for this particular controller action
+            $profiler->disable();
+        }
 
 
         $query = $request->query->get('q');
@@ -88,8 +102,16 @@ class AccountController extends /**AbstractController**/ BaseController
      * @IsGranted ("ROLE_SUPER_ADMIN_DELETEUSER")
      * @Route("userss/remove/{id}", methods={"DELETE"})
      */
-    public function delete(Request $request, $id)
+    public function delete(Request $request, $id, ?Profiler $profiler)
     {
+        // $profiler won't be set if your environment doesn't have the profiler (like prod, by default)
+        if (null !== $profiler) {
+            // if it exists, disable the profiler for this particular controller action
+            $profiler->disable();
+        }
+
+
+
        // var_dump($id);
 
         $user = $this->getDoctrine()->getRepository(User::class)->findBy($id);

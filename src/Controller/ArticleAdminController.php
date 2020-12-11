@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Profiler\Profiler;
 
 class ArticleAdminController extends AbstractController
 {
@@ -29,7 +30,13 @@ class ArticleAdminController extends AbstractController
      * @return RedirectResponse|Response
      * @throws \Exception
      */
-    public function new(Request $request, EntityManagerInterface $entityManager){
+    public function new(Request $request, EntityManagerInterface $entityManager, ?Profiler $profiler){
+
+        // $profiler won't be set if your environment doesn't have the profiler (like prod, by default)
+        if (null !== $profiler) {
+            // if it exists, disable the profiler for this particular controller action
+            $profiler->disable();
+        }
 
         /*
          * This entire method will create a form, when clicking the 'new article' button.
@@ -92,7 +99,14 @@ class ArticleAdminController extends AbstractController
      * @param Request $request
      * @param $id
      */
-    public function delete(Request $request, $id) {
+    public function delete(Request $request, $id, ?Profiler $profiler) {
+
+        // $profiler won't be set if your environment doesn't have the profiler (like prod, by default)
+        if (null !== $profiler) {
+            // if it exists, disable the profiler for this particular controller action
+            $profiler->disable();
+        }
+
         $article = $this->getDoctrine()->getRepository(Review::class)->find($id);
 
         $entityManager = $this->getDoctrine()->getManager();
@@ -113,7 +127,13 @@ class ArticleAdminController extends AbstractController
      * @param $id
      * @return RedirectResponse|Response
      */
-    public function edit(Request $request, $id, Review $review) {
+    public function edit(Request $request, $id, Review $review, ?Profiler $profiler) {
+
+        // $profiler won't be set if your environment doesn't have the profiler (like prod, by default)
+        if (null !== $profiler) {
+            // if it exists, disable the profiler for this particular controller action
+            $profiler->disable();
+        }
 
         /*
          * This part finds the article by the ID passed in
@@ -174,15 +194,6 @@ class ArticleAdminController extends AbstractController
         ));
     }
 
-    /**
-     * @Route ("/admin/upload/test", name="upload_test")
-     */
-    public function temporaryUploadAction(Request $request)
-    {
-
-    dd($request->files->get('image'));
-    }
-
 
 
     /**
@@ -195,8 +206,15 @@ class ArticleAdminController extends AbstractController
      * @param EntityManagerInterface $entityManager
      * @return Response
      */
-    public function submitComment($id, Request $request, EntityManagerInterface $entityManager)
+    public function submitComment($id, Request $request, EntityManagerInterface $entityManager, ?Profiler $profiler)
     {
+
+        // $profiler won't be set if your environment doesn't have the profiler (like prod, by default)
+        if (null !== $profiler) {
+            // if it exists, disable the profiler for this particular controller action
+            $profiler->disable();
+        }
+
 
 //    dd($commentBody);
 //        dd();
