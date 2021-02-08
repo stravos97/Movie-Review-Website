@@ -1,7 +1,7 @@
 # Movie-Review-Website
 
 Web application allows users to register, log in/out, create, view and edit movie reviews. The information about the review includes movie title, director, list of actors,
-running time, reviewer and the actual review text. 
+running time, reviewer and the actual review. 
 
 Key features implemented:
 
