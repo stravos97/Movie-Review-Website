@@ -9,13 +9,14 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ReviewRepository::class)
+ * @ORM\Table(name="reviews")
  */
 class Review
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="review_id")
      */
     private $id;
 
@@ -25,7 +26,7 @@ class Review
     private $rating;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", name="created_at", nullable=true)
      */
     private $date;
 
@@ -35,29 +36,55 @@ class Review
     private $summary;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", name="review_body")
      */
     private $message_body;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", name="is_reported", nullable=true, options={"default": false})
      */
     private $reported;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=200, name="movie_title")
      */
     private $movieTitle;
 
     /**
-     * @ORM\Column(type="string", length=100, nullable=true)
+     * @ORM\Column(type="string", length=150, nullable=true)
      */
     private $director;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $actors;
+
+    /**
+     * @ORM\Column(type="integer", name="release_year", nullable=true)
+     */
+    private $releaseYear;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $genre;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", nullable=true, onDelete="CASCADE")
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(type="integer", name="view_count", options={"default": 0})
+     */
+    private $viewCount = 0;
+
+    /**
+     * @ORM\Column(type="datetime", name="updated_at", nullable=true)
+     */
+    private $updatedAt;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="movieID")
@@ -67,7 +94,7 @@ class Review
     public function __construct()
     {
         $this->comments = new ArrayCollection();
-        $this->date = new \DateTime();;
+        $this->date = new \DateTime();
     }
 
     public function getId(): ?int
@@ -167,6 +194,66 @@ class Review
     public function setActors(?string $actors): self
     {
         $this->actors = $actors;
+
+        return $this;
+    }
+
+    public function getReleaseYear(): ?int
+    {
+        return $this->releaseYear;
+    }
+
+    public function setReleaseYear(?int $releaseYear): self
+    {
+        $this->releaseYear = $releaseYear;
+
+        return $this;
+    }
+
+    public function getGenre(): ?string
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(?string $genre): self
+    {
+        $this->genre = $genre;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getViewCount(): int
+    {
+        return (int) $this->viewCount;
+    }
+
+    public function setViewCount(int $viewCount): self
+    {
+        $this->viewCount = $viewCount;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Comments{% endblock %}
+
+{% block body %}
+  <div class="container mt-4">
+    <h2>My Comments</h2>
+    {% if items is empty %}
+      <div class="alert alert-info">You haven't posted any comments yet.</div>
+    {% else %}
+      <div class="list-group">
+        {% for c in items %}
+          <a href="{{ path('article_show', { id: c.movieID.id }) }}" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">On: {{ c.movieID.movieTitle }}</h5>
+              <small>{{ c.date ? c.date|date('Y-m-d H:i') : '' }}</small>
+            </div>
+            <p class="mb-1">{{ c.commentBody|u.truncate(220, '…', false) }}</p>
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <nav aria-label="Pagination" class="mt-3">
+      <ul class="pagination">
+        <li class="page-item{% if page <= 1 %} disabled{% endif %}">
+          <a class="page-link" href="{{ path('my_comments', { page: page - 1 }) }}" tabindex="-1">Previous</a>
+        </li>
+        <li class="page-item active"><span class="page-link">Page {{ page }}</span></li>
+        <li class="page-item{% if not has_next %} disabled{% endif %}">
+          <a class="page-link" href="{{ path('my_comments', { page: page + 1 }) }}">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+{% endblock %}

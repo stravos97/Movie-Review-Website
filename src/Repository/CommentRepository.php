@@ -19,32 +19,37 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
-    // /**
-    //  * @return Comment[] Returns an array of Comment objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function forReview(int $reviewId, int $limit = 50, int $offset = 0): array
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('IDENTITY(c.movieID) = :rid')
+            ->setParameter('rid', $reviewId)
+            ->orderBy('c.date', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Comment
+    public function recentByUser(int $userId, int $limit = 20, int $offset = 0): array
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('IDENTITY(c.user) = :uid')
+            ->setParameter('uid', $userId)
+            ->orderBy('c.date', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
+
+    public function countForReview(int $reviewId): int
+    {
+        return (int) $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            ->andWhere('IDENTITY(c.movieID) = :rid')
+            ->setParameter('rid', $reviewId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

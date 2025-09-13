@@ -8,13 +8,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\Table(name="users")
  */
 class User implements UserInterface
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="user_id")
      */
     private $id;
 
@@ -24,14 +25,39 @@ class User implements UserInterface
     private $email;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    private $password;
+
+    /**
      * @ORM\Column(type="json")
      */
     private $roles = [];
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, name="first_name")
      */
     private $firstName;
+
+    /**
+     * @ORM\Column(type="string", length=255, name="last_name", nullable=true)
+     */
+    private $lastName;
+
+    /**
+     * @ORM\Column(type="boolean", name="is_active", options={"default": true})
+     */
+    private $isActive = true;
+
+    /**
+     * @ORM\Column(type="datetime", name="created_at", nullable=true)
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", name="updated_at", nullable=true)
+     */
+    private $updatedAt;
 
     public function getId(): ?int
     {
@@ -46,6 +72,18 @@ class User implements UserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getPassword(): string
+    {
+        return (string) $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
 
         return $this;
     }
@@ -66,7 +104,6 @@ class User implements UserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
@@ -82,17 +119,9 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getPassword()
-    {
-        // not needed for apps that do not check user passwords
-    }
-
-    /**
-     * @see UserInterface
-     */
     public function getSalt()
     {
-        // not needed for apps that do not check user passwords
+        return null;
     }
 
     /**
@@ -100,7 +129,6 @@ class User implements UserInterface
      */
     public function eraseCredentials()
     {
-        // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
 
@@ -112,6 +140,54 @@ class User implements UserInterface
     public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(?string $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getIsActive(): bool
+    {
+        return (bool) $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

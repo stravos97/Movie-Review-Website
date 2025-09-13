@@ -12,6 +12,14 @@
     <body>
         {{include('includes/navbar.html.twig')}}    
         <div class="container">
+            {# Flash messages #}
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label == 'error' ? 'danger' : label }} mt-3" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
             {% block body %}{% endblock %}
         </div>
 

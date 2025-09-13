@@ -62,6 +62,24 @@ class IndexController extends AbstractController { //article controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             $entityManager = $this->getDoctrine()->getManager();
+
+            // ensure review has a user for new schema
+            if (method_exists($review, 'getUser') && null === $review->getUser()) {
+                $currentUser = null;
+                if (method_exists($this, 'getUser') && $this->getUser()) {
+                    $currentUser = $this->getUser();
+                }
+                if (!$currentUser) {
+                    $currentUser = $entityManager->getRepository(\App\Entity\User::class)->findOneBy(['email' => 'admin@example.com']);
+                }
+                if (!$currentUser) {
+                    $currentUser = $entityManager->getRepository(\App\Entity\User::class)->findOneBy([]);
+                }
+                if ($currentUser && method_exists($review, 'setUser')) {
+                    $review->setUser($currentUser);
+                }
+            }
+
             $entityManager->persist($review);
             $entityManager->flush();
 

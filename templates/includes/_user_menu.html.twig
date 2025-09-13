@@ -1,0 +1,29 @@
+{% if app.user %}
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      My Activity
+    </a>
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="min-width: 22rem;">
+      <h6 class="dropdown-header">My Reviews</h6>
+      {% if myReviews is not empty %}
+        {% for r in myReviews %}
+          <a class="dropdown-item" href="{{ path('article_show', { id: r.id }) }}">{{ r.movieTitle }}{% if r.rating %} — ★{{ r.rating }}{% endif %}</a>
+        {% endfor %}
+      {% else %}
+        <span class="dropdown-item text-muted">No reviews yet</span>
+      {% endif %}
+      <div class="dropdown-divider"></div>
+      <h6 class="dropdown-header">My Comments</h6>
+      {% if myComments is not empty %}
+        {% for c in myComments %}
+          <a class="dropdown-item" href="{{ path('article_show', { id: c.movieID.id }) }}">On: {{ c.movieID.movieTitle|u.truncate(24, '…', false) }}</a>
+        {% endfor %}
+      {% else %}
+        <span class="dropdown-item text-muted">No comments yet</span>
+      {% endif %}
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item font-weight-bold" href="{{ path('my_reviews') }}">View all my reviews</a>
+      <a class="dropdown-item font-weight-bold" href="{{ path('my_comments') }}">View all my comments</a>
+    </div>
+  </li>
+{% endif %}
