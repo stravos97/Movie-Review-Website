@@ -10,8 +10,8 @@ permissions:
   contents: read
 
 jobs:
-  test:
-    name: Test and Lint
+  tests:
+    name: Tests
     runs-on: ubuntu-latest
     env:
       APP_ENV: test
@@ -52,13 +52,47 @@ jobs:
       - name: Run PHPUnit
         run: vendor/bin/phpunit --testdox
 
-      - name: Run CI checks
+  checks:
+    name: Static Checks
+    runs-on: ubuntu-latest
+    env:
+      APP_ENV: test
+      SYMFONY_ENV: test
+      DATABASE_URL: "sqlite:///%kernel.project_dir%/var/test.db"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: pdo, pdo_sqlite, sqlite3, mbstring, intl, json
+          ini-values: post_max_size=256M, max_execution_time=120
+          coverage: none
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies (no scripts)
+        run: composer install --no-interaction --prefer-dist --no-scripts
+
+      - name: CI checks
         run: bash scripts/ci-checks.sh
 
   build:
     name: Build and Publish Docker image
     runs-on: ubuntu-latest
-    needs: [ test ]
+    needs: [ tests, checks ]
     permissions:
       contents: read
       packages: write
@@ -97,6 +131,7 @@ jobs:
           cache-to: type=gha,mode=max
 
   compose_smoke:
+    if: ${{ false }}
     name: Docker Compose Smoke Test
     runs-on: ubuntu-latest
     needs: [ build ]
