@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: help up-local down-local logs-local up-remote down-remote logs-remote pull-image ps-local ps-remote verify-seed health-local health-remote print-env publish-public preflight-local preflight-remote
+.PHONY: help up-local down-local logs-local up-remote down-remote logs-remote pull-image ps-local ps-remote verify-seed health-local health-remote print-env publish-public preflight-local preflight-remote postman
 
 REGISTRY ?= ghcr.io
 IMAGE ?= $(REGISTRY)/stravos97/Movie-Review-Website:latest
@@ -22,6 +22,7 @@ help:
 	@echo "make publish-public # force-push a single-commit snapshot to PUBLIC_REPO"
 	@echo "make preflight-local  # validate required vars for local compose"
 	@echo "make preflight-remote # validate required vars for remote compose"
+	@echo "make postman         # print Postman collection path and try to open"
 
 up-local: preflight-local
 	docker compose --env-file .env -f docker-compose.local.yml up -d --build
@@ -79,7 +80,14 @@ print-env:
 	  echo "DB_URL=$$DB_URL_SHOW"; \
 	  echo "APP_DB_USERNAME=$$APP_USER_SHOW"; \
 	  echo -n "APP_DB_PASSWORD="; mask "$${APP_DB_PASSWORD}"; echo; \
-	  echo -n "MYSQL_ROOT_PASSWORD="; mask "$${MYSQL_ROOT_PASSWORD}"; echo;'
+	  echo -n "MYSQL_ROOT_PASSWORD="; mask "$${MYSQL_ROOT_PASSWORD}"; echo;' 
+
+postman:
+	@echo "Postman collection: docs/postman/MovieReview.postman_collection.json"
+	@echo "Base URL variable: {{baseUrl}} (default: http://localhost:8080)"
+	@if command -v uname >/dev/null 2>&1 && [ "$$(uname)" = "Darwin" ]; then \
+	  open docs/postman/MovieReview.postman_collection.json || true; \
+	fi
 
 publish-public:
 	@echo "Publishing sanitized snapshot to public repo (single commit history)..."
