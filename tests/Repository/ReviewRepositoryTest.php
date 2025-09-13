@@ -2,11 +2,17 @@
 
 namespace App\Tests\Repository;
 
+use App\Kernel;
 use App\Repository\ReviewRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ReviewRepositoryTest extends KernelTestCase
 {
+    protected static function createKernel(array $options = [])
+    {
+        return new Kernel('test', true);
+    }
+
     public function testRecentReturnsArray(): void
     {
         self::bootKernel();
@@ -17,4 +23,3 @@ class ReviewRepositoryTest extends KernelTestCase
         $this->assertIsArray($results);
     }
 }
-
