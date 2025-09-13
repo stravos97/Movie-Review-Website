@@ -102,9 +102,6 @@ jobs:
     needs: [ build ]
     env:
       APP_DB_USERNAME: sparta_user
-      APP_DB_PASSWORD: testpassword123!
-      MYSQL_ROOT_PASSWORD: rootpassword123!
-      APP_SECRET: test_secret_value
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -116,6 +113,13 @@ jobs:
         id: meta
         run: |
           echo "repo=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
+      - name: Generate secure passwords
+        run: |
+          # Generate URL-safe passwords using base64 (no special characters)
+          echo "APP_DB_PASSWORD=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-25)" >> $GITHUB_ENV
+          echo "MYSQL_ROOT_PASSWORD=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-25)" >> $GITHUB_ENV
+          echo "APP_SECRET=$(openssl rand -hex 32)" >> $GITHUB_ENV
 
       - name: Start local stack (web + mysql)
         run: |

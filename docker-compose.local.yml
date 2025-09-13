@@ -13,10 +13,11 @@ services:
     ports:
       - "3306:3306"
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
+      test: ["CMD", "mysql", "-h", "127.0.0.1", "-u", "${APP_DB_USERNAME:-sparta_user}", "-p${APP_DB_PASSWORD}", "sparta_academy", "-e", "SELECT 1"]
       interval: 10s
       timeout: 5s
-      retries: 10
+      retries: 15
+      start_period: 30s
     volumes:
       - mysql_data:/var/lib/mysql
       - ./docker/mysql/init/10_schema.sql:/docker-entrypoint-initdb.d/10_schema.sql:ro

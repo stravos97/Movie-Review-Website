@@ -15,10 +15,21 @@ class HealthController extends AbstractController
     public function health(Connection $connection): JsonResponse
     {
         $dbOk = true;
-        try {
-            $connection->executeQuery('SELECT 1')->fetchOne();
-        } catch (\Throwable $e) {
-            $dbOk = false;
+        $retries = 3;
+        $delay = 1; // seconds
+        
+        for ($i = 0; $i < $retries; $i++) {
+            try {
+                $connection->executeQuery('SELECT 1')->fetchOne();
+                $dbOk = true;
+                break;
+            } catch (\Throwable $e) {
+                $dbOk = false;
+                if ($i < $retries - 1) {
+                    sleep($delay);
+                    $delay *= 2; // exponential backoff
+                }
+            }
         }
 
         return $this->json([
