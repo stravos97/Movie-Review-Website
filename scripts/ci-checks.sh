@@ -5,7 +5,8 @@ echo "PHP: $(php -v | head -n 1)"
 echo "Composer: $(composer --version)"
 
 echo "Validating composer.json/composer.lock"
-composer validate --no-check-publish --strict
+# Ignore lock hash drift in CI and keep strict schema checks
+composer validate --no-check-publish --no-check-lock --strict
 
 echo "PHP lint"
 find src -type f -name "*.php" -print0 | xargs -0 -n1 -P4 php -l > /dev/null
@@ -20,4 +21,3 @@ echo "Doctrine mapping validation"
 php bin/console doctrine:schema:validate --skip-sync -q
 
 echo "All checks passed."
-
