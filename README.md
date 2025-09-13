@@ -29,9 +29,21 @@ Choose one of the following ways to run the app:
 ```bash
 git clone https://github.com/stravos97/Movie-Review-Website.git
 cd Movie-Review-Website
-cp .env.example .env
+# Fast path: auto-generate .env with secure passwords (defaults to dev)
+make gen-env
+
+# Generate a prod-like .env (APP_ENV=prod implies APP_DEBUG=0)
+OVERWRITE=1 APP_ENV=prod make gen-env
+
+# The generated .env includes guidance for:
+# - Local Docker: compose sets DATABASE_URL; DB_URL is ignored
+# - Remote Docker: compose passes DB_URL as DATABASE_URL
+# - Non-Docker local: uncomment the suggested DATABASE_URL line
+
+# Or manual path:
+# cp .env.example .env
 # Edit .env: set APP_DB_PASSWORD, MYSQL_ROOT_PASSWORD, APP_SECRET
-make print-env   # optional sanity check (sanitized output)
+# make print-env   # optional sanity check (sanitized output)
 ```
 
 ### Method 1: Docker with Pre-built Images
