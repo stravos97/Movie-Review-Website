@@ -142,6 +142,16 @@ jobs:
           done
           echo "Web did not become ready in time"; exit 1
 
+      - name: Dump container logs on failure
+        if: failure()
+        run: |
+          docker compose -f docker-compose.ci.yml logs --no-color || true
+          WEB_ID=$(docker ps -q --filter name=movie_review_web || true)
+          if [ -n "$WEB_ID" ]; then
+            echo '---- Symfony prod log ----'
+            docker exec "$WEB_ID" sh -lc 'tail -n 200 var/log/prod.log 2>/dev/null || true'
+          fi
+
       - name: Smoke checks
         run: |
           curl -fsS http://localhost:8080/health | jq .

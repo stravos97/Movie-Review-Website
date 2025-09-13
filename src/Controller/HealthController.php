@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,24 +12,30 @@ class HealthController extends AbstractController
     /**
      * @Route("/health", name="app_health", methods={"GET"})
      */
-    public function health(Connection $connection): JsonResponse
+    public function health(ManagerRegistry $doctrine): JsonResponse
     {
         $dbOk = true;
-        $retries = 3;
-        $delay = 1; // seconds
-        
-        for ($i = 0; $i < $retries; $i++) {
-            try {
-                $connection->executeQuery('SELECT 1')->fetchOne();
-                $dbOk = true;
-                break;
-            } catch (\Throwable $e) {
-                $dbOk = false;
-                if ($i < $retries - 1) {
-                    sleep($delay);
-                    $delay *= 2; // exponential backoff
+        try {
+            $connection = $doctrine->getConnection();
+            // If connection cannot be established, mark DB down but return 200
+            if ($connection && ($connection->isConnected() || $connection->connect())) {
+                try {
+                    if (method_exists($connection, 'executeQuery')) {
+                        $res = $connection->executeQuery('SELECT 1');
+                        if ($res && method_exists($res, 'fetchOne')) {
+                            $res->fetchOne();
+                        }
+                    } else {
+                        $connection->query('SELECT 1');
+                    }
+                } catch (\Throwable $dbError) {
+                    $dbOk = false;
                 }
+            } else {
+                $dbOk = false;
             }
+        } catch (\Throwable $e) {
+            $dbOk = false;
         }
 
         return $this->json([
@@ -38,4 +44,3 @@ class HealthController extends AbstractController
         ]);
     }
 }
-
