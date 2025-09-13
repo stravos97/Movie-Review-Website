@@ -7,7 +7,8 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY composer.json composer.lock ./
-COPY composer.phar /usr/local/bin/composer
+# Use Composer binary from official image
+COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 RUN chmod +x /usr/local/bin/composer
 RUN composer install --no-dev --no-interaction --prefer-dist --no-progress --optimize-autoloader
 
@@ -15,7 +16,7 @@ FROM php:7.4-apache
 
 # Install system deps and PHP extensions
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libpng-dev libicu-dev libonig-dev libzip-dev unzip git $PHPIZE_DEPS \
+    && apt-get install -y --no-install-recommends curl libpng-dev libicu-dev libonig-dev libzip-dev unzip git $PHPIZE_DEPS \
     && docker-php-ext-install pdo pdo_mysql intl \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
@@ -39,9 +40,8 @@ WORKDIR /var/www/html
 COPY . .
 COPY --from=vendor /app/vendor ./vendor
 
-# Environment defaults (override at runtime)
-ENV APP_ENV=prod \
-    APP_SECRET=change_me
+# Environment defaults (override at runtime). Do not bake secrets into the image.
+ENV APP_ENV=prod
 
 EXPOSE 80
 

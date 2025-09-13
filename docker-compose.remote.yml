@@ -10,7 +10,7 @@ services:
     command: ["/bin/sh", "-lc", "apk add --no-cache netcat-openbsd >/dev/null; host=${DB_HOST}; port=${DB_PORT:-3306}; echo 'Waiting for remote DB...'; for i in $(seq 1 120); do nc -z \"$host\" \"$port\" && echo 'DB reachable' && exit 0; echo '...retry'; sleep 2; done; echo 'Timeout waiting for DB' >&2; exit 1"]
 
   web:
-    image: ghcr.io/stravos97/Movie-Review-Website:latest
+    image: ghcr.io/stravos97/movie-review-website:latest
     container_name: movie_review_web_remote
     restart: unless-stopped
     depends_on:
@@ -23,4 +23,3 @@ services:
       APP_SECRET: ${APP_SECRET:-change_me}
     ports:
       - "8080:80"
-
