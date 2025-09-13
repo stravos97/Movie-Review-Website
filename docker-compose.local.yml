@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql@sha256:d2fdd0af28933c6f28475ff3b7defdbc0e0475d9f7346b5115b8d3abf8848a1d
+    container_name: sparta_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: sparta_academy
+      MYSQL_USER: ${APP_DB_USERNAME:-sparta_user}
+      MYSQL_PASSWORD: ${APP_DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init/10_schema.sql:/docker-entrypoint-initdb.d/10_schema.sql:ro
+
+  web:
+    build: .
+    container_name: movie_review_web
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      APP_ENV: prod
+      # Doctrine DSN — points to the mysql service
+      DATABASE_URL: mysql://${APP_DB_USERNAME}:${APP_DB_PASSWORD}@mysql:3306/sparta_academy?serverVersion=8.0
+      APP_SECRET: ${APP_SECRET:-change_me}
+    ports:
+      - "8080:80"
+
+volumes:
+  mysql_data:
+    driver: local
+

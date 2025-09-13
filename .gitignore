@@ -157,3 +157,8 @@ fabric.properties
 # End of https://www.toptal.com/developers/gitignore/api/phpstorm
 /composer_2.phar
 .idea/php.xml
+
+# Local environment overrides
+.env.local
+.env.*.local
+.env

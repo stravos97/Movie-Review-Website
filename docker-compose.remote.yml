@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  db_wait:
+    image: alpine@sha256:3be987e6cde1d07e873c012bf6cfe941e6e85d16ca5fc5b8bedc675451d2de67
+    container_name: sparta_db_wait
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT:-3306}
+    command: ["/bin/sh", "-lc", "apk add --no-cache netcat-openbsd >/dev/null; host=${DB_HOST}; port=${DB_PORT:-3306}; echo 'Waiting for remote DB...'; for i in $(seq 1 120); do nc -z \"$host\" \"$port\" && echo 'DB reachable' && exit 0; echo '...retry'; sleep 2; done; echo 'Timeout waiting for DB' >&2; exit 1"]
+
+  web:
+    image: ghcr.io/stravos97/Movie-Review-Website:latest
+    container_name: movie_review_web_remote
+    restart: unless-stopped
+    depends_on:
+      db_wait:
+        condition: service_completed_successfully
+    environment:
+      APP_ENV: prod
+      # Compose cannot expand nested vars inside one value reliably; provide full DSN in DB_URL
+      DATABASE_URL: ${DB_URL}
+      APP_SECRET: ${APP_SECRET:-change_me}
+    ports:
+      - "8080:80"
+
