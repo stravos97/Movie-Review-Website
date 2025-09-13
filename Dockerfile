@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1
 
 FROM php:7.4-cli AS vendor
-RUN --mount=type=cache,target=/var/cache/apt \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
     apt-get update \
     && apt-get install -y --no-install-recommends git unzip libzip-dev zlib1g-dev \
-    && docker-php-ext-install zip \
-    && rm -rf /var/lib/apt/lists/*
+    && docker-php-ext-install zip
 WORKDIR /app
 COPY composer.json composer.lock ./
 # Use Composer binary from official image
@@ -24,7 +24,8 @@ FROM php:7.4-apache
 ARG WITH_XDEBUG=false
 
 # Install system deps and PHP extensions
-RUN --mount=type=cache,target=/var/cache/apt \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
     set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends curl libpng-dev libicu-dev libonig-dev libzip-dev unzip git; \
@@ -42,8 +43,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
          echo "xdebug.client_port=9003"; \
        } > /usr/local/etc/php/conf.d/xdebug.ini; \
     fi; \
-    a2enmod rewrite; \
-    rm -rf /var/lib/apt/lists/*
+    a2enmod rewrite
 
 # Configure Apache for Symfony public dir
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
