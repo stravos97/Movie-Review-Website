@@ -23,7 +23,7 @@ security:
                 secret: '%kernel.secret%'
                 lifetime: 1209600 # 14 days
                 path: '/'
-                always_remember: false
+                always_remember_me: false
             logout:
                 path:   app_logout
                 invalidate_session: true

@@ -46,7 +46,7 @@ DB_URL=mysql://${APP_DB_USERNAME}:${APP_DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_
 ```
 
 - Symfony without Docker:
-  - Keep `.env` generic; put developer-specific secrets in `.env.local` (ignored by Git).
+  - Use `.env` (gitignored) for your local secrets; do not commit it.
   - Ensure `DATABASE_URL` is set to a valid DSN (it defaults to `DB_URL`).
 
 ## Docker Usage

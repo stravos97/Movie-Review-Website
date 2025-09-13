@@ -162,3 +162,8 @@ fabric.properties
 .env.local
 .env.*.local
 .env
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

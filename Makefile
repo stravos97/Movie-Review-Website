@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: help up-local down-local logs-local up-remote down-remote logs-remote pull-image ps-local ps-remote verify-seed health-local health-remote print-env publish-public
+.PHONY: help up-local down-local logs-local up-remote down-remote logs-remote pull-image ps-local ps-remote verify-seed health-local health-remote print-env publish-public preflight-local preflight-remote
 
 REGISTRY ?= ghcr.io
 IMAGE ?= $(REGISTRY)/stravos97/Movie-Review-Website:latest
@@ -20,8 +20,10 @@ help:
 	@echo "make health-remote  # GET / on remote web compose"
 	@echo "make print-env      # show sanitized env values from .env"
 	@echo "make publish-public # force-push a single-commit snapshot to PUBLIC_REPO"
+	@echo "make preflight-local  # validate required vars for local compose"
+	@echo "make preflight-remote # validate required vars for remote compose"
 
-up-local:
+up-local: preflight-local
 	docker compose --env-file .env -f docker-compose.local.yml up -d --build
 
 down-local:
@@ -33,7 +35,7 @@ logs-local:
 ps-local:
 	docker compose --env-file .env -f docker-compose.local.yml ps
 
-up-remote:
+up-remote: preflight-remote
 	docker compose --env-file .env -f docker-compose.remote.yml up -d
 
 down-remote:
@@ -95,3 +97,27 @@ publish-public:
 	  fi; \
 	  git push -f public main; \
 	  echo "> Done: pushed single-commit snapshot to $$PUBLIC_REPO";'
+
+preflight-local:
+	@bash -lc 'set -e; \
+	  if [ ! -f .env ]; then echo "ERROR: .env not found. Copy .env.example -> .env" >&2; exit 1; fi; \
+	  set -a; . ./.env; set +a; \
+	  missing=0; \
+	  for v in APP_DB_USERNAME APP_DB_PASSWORD MYSQL_ROOT_PASSWORD APP_SECRET; do \
+	    eval "val=\$$v"; \
+	    if [ -z "$$val" ]; then echo "Missing $$v in .env" >&2; missing=1; fi; \
+	  done; \
+	  if [ "$$missing" -ne 0 ]; then echo "Preflight local FAILED" >&2; exit 1; fi; \
+	  echo "Preflight local OK";'
+
+preflight-remote:
+	@bash -lc 'set -e; \
+	  if [ ! -f .env ]; then echo "ERROR: .env not found. Copy .env.example -> .env" >&2; exit 1; fi; \
+	  set -a; . ./.env; set +a; \
+	  missing=0; \
+	  for v in DB_HOST DB_PORT APP_DB_USERNAME APP_DB_PASSWORD DB_URL APP_SECRET; do \
+	    eval "val=\$$v"; \
+	    if [ -z "$$val" ]; then echo "Missing $$v in .env" >&2; missing=1; fi; \
+	  done; \
+	  if [ "$$missing" -ne 0 ]; then echo "Preflight remote FAILED" >&2; exit 1; fi; \
+	  echo "Preflight remote OK";'
