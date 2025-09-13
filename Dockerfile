@@ -2,7 +2,6 @@
 
 FROM php:7.4-cli AS vendor
 RUN --mount=type=cache,target=/var/cache/apt \
-    --mount=type=cache,target=/var/lib/apt/lists \
     apt-get update \
     && apt-get install -y --no-install-recommends git unzip libzip-dev zlib1g-dev \
     && docker-php-ext-install zip \
@@ -26,7 +25,6 @@ ARG WITH_XDEBUG=false
 
 # Install system deps and PHP extensions
 RUN --mount=type=cache,target=/var/cache/apt \
-    --mount=type=cache,target=/var/lib/apt/lists \
     set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends curl libpng-dev libicu-dev libonig-dev libzip-dev unzip git; \
