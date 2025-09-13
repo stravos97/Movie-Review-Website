@@ -1,7 +1,9 @@
 # syntax=docker/dockerfile:1
 
 FROM php:7.4-cli AS vendor
-RUN apt-get update \
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt/lists \
+    apt-get update \
     && apt-get install -y --no-install-recommends git unzip libzip-dev zlib1g-dev \
     && docker-php-ext-install zip \
     && rm -rf /var/lib/apt/lists/*
@@ -13,7 +15,9 @@ RUN chmod +x /usr/local/bin/composer
 ENV COMPOSER_NO_INTERACTION=1 \
     COMPOSER_ALLOW_SUPERUSER=1 \
     COMPOSER_NO_SCRIPTS=1
-RUN composer install --no-dev --prefer-dist --no-progress --optimize-autoloader --no-scripts
+RUN --mount=type=cache,target=/tmp/composer-cache \
+    COMPOSER_CACHE_DIR=/tmp/composer-cache \
+    composer install --no-dev --prefer-dist --no-progress --optimize-autoloader --no-scripts
 
 FROM php:7.4-apache
 
@@ -21,7 +25,9 @@ FROM php:7.4-apache
 ARG WITH_XDEBUG=false
 
 # Install system deps and PHP extensions
-RUN set -eux; \
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt/lists \
+    set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends curl libpng-dev libicu-dev libonig-dev libzip-dev unzip git; \
     docker-php-ext-install pdo pdo_mysql intl; \
@@ -52,6 +58,12 @@ COPY --from=vendor /app/vendor ./vendor
 
 # Environment defaults (override at runtime). Do not bake secrets into the image.
 ENV APP_ENV=prod
+
+# Ensure writable cache/log directories for Symfony
+RUN set -eux; \
+    mkdir -p var/cache var/log; \
+    chown -R www-data:www-data var; \
+    chmod -R 775 var
 
 # Warm up Symfony cache in production mode (non-fatal if not fully configured at build time)
 RUN php bin/console cache:warmup --env=prod || true

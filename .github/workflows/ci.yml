@@ -42,7 +42,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies
-        run: composer install --no-interaction --prefer-dist
+        run: composer install --no-interaction --prefer-dist --no-scripts
 
       - name: Prepare test DB (SQLite)
         run: |
@@ -112,13 +112,23 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Compute lowercase repo
+        id: meta
+        run: |
+          echo "repo=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
       - name: Start local stack (web + mysql)
         run: |
           echo "APP_DB_USERNAME=$APP_DB_USERNAME" > .env
           echo "APP_DB_PASSWORD=$APP_DB_PASSWORD" >> .env
           echo "MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD" >> .env
           echo "APP_SECRET=$APP_SECRET" >> .env
-          docker compose --env-file .env -f docker-compose.local.yml up -d --build
+          CI_IMAGE=ghcr.io/${{ steps.meta.outputs.repo }}:sha-${{ github.sha }}
+          echo "Using image: $CI_IMAGE"
+          docker pull "$CI_IMAGE"
+          # Create CI override compose to avoid rebuilding the web image
+          sed 's#^\([[:space:]]*\)build: \.#\1image: '"$CI_IMAGE"'#' docker-compose.local.yml > docker-compose.ci.yml
+          docker compose --env-file .env -f docker-compose.ci.yml up -d
 
       - name: Wait for web to be healthy
         run: |
