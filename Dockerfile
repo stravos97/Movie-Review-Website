@@ -1,8 +1,14 @@
 # syntax=docker/dockerfile:1
 
-FROM composer:2 AS vendor
+FROM php:7.4-cli AS vendor
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends git unzip libzip-dev zlib1g-dev \
+    && docker-php-ext-install zip \
+    && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY composer.json composer.lock ./
+COPY composer.phar /usr/local/bin/composer
+RUN chmod +x /usr/local/bin/composer
 RUN composer install --no-dev --no-interaction --prefer-dist --no-progress --optimize-autoloader
 
 FROM php:7.4-apache
@@ -25,7 +31,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Configure Apache for Symfony public dir
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
     && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
