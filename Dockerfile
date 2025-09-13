@@ -10,26 +10,36 @@ COPY composer.json composer.lock ./
 # Use Composer binary from official image
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 RUN chmod +x /usr/local/bin/composer
-RUN composer install --no-dev --no-interaction --prefer-dist --no-progress --optimize-autoloader --no-scripts
+ENV COMPOSER_NO_INTERACTION=1 \
+    COMPOSER_ALLOW_SUPERUSER=1 \
+    COMPOSER_NO_SCRIPTS=1
+RUN composer install --no-dev --prefer-dist --no-progress --optimize-autoloader --no-scripts
 
 FROM php:7.4-apache
 
+# Optional Xdebug (disabled by default)
+ARG WITH_XDEBUG=false
+
 # Install system deps and PHP extensions
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends curl libpng-dev libicu-dev libonig-dev libzip-dev unzip git $PHPIZE_DEPS \
-    && docker-php-ext-install pdo pdo_mysql intl \
-    && pecl install xdebug \
-    && docker-php-ext-enable xdebug \
-    && { \
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends curl libpng-dev libicu-dev libonig-dev libzip-dev unzip git; \
+    docker-php-ext-install pdo pdo_mysql intl; \
+    if [ "$WITH_XDEBUG" = "true" ]; then \
+      apt-get install -y --no-install-recommends $PHPIZE_DEPS; \
+      pecl install xdebug; \
+      docker-php-ext-enable xdebug; \
+      { \
          echo "; Xdebug defaults (disabled by default, enable via XDEBUG_MODE env in dev)"; \
          echo "xdebug.mode=off"; \
          echo "xdebug.start_with_request=no"; \
          echo "xdebug.discover_client_host=1"; \
          echo "xdebug.client_host=host.docker.internal"; \
          echo "xdebug.client_port=9003"; \
-       } > /usr/local/etc/php/conf.d/xdebug.ini \
-    && a2enmod rewrite \
-    && rm -rf /var/lib/apt/lists/*
+       } > /usr/local/etc/php/conf.d/xdebug.ini; \
+    fi; \
+    a2enmod rewrite; \
+    rm -rf /var/lib/apt/lists/*
 
 # Configure Apache for Symfony public dir
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
@@ -42,6 +52,9 @@ COPY --from=vendor /app/vendor ./vendor
 
 # Environment defaults (override at runtime). Do not bake secrets into the image.
 ENV APP_ENV=prod
+
+# Warm up Symfony cache in production mode (non-fatal if not fully configured at build time)
+RUN php bin/console cache:warmup --env=prod || true
 
 EXPOSE 80
 

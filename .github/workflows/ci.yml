@@ -92,6 +92,7 @@ jobs:
             ghcr.io/${{ steps.meta.outputs.repo }}:sha-${{ github.sha }}
           build-args: |
             APP_ENV=prod
+            WITH_XDEBUG=false
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
