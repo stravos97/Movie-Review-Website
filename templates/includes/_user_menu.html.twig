@@ -16,7 +16,7 @@
       <h6 class="dropdown-header">My Comments</h6>
       {% if myComments is not empty %}
         {% for c in myComments %}
-          <a class="dropdown-item" href="{{ path('article_show', { id: c.movieID.id }) }}">On: {{ c.movieID.movieTitle|u.truncate(24, '…', false) }}</a>
+          <a class="dropdown-item" href="{{ path('article_show', { id: c.movieID.id }) }}">On: {{ c.movieID.movieTitle|length > 24 ? c.movieID.movieTitle|slice(0, 24) ~ '…' : c.movieID.movieTitle }}</a>
         {% endfor %}
       {% else %}
         <span class="dropdown-item text-muted">No comments yet</span>

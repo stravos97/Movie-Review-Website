@@ -15,7 +15,7 @@
               <h5 class="mb-1">{{ r.movieTitle }}</h5>
               <small>Rating: {{ r.rating ?? 'n/a' }}</small>
             </div>
-            <p class="mb-1">{{ r.summary|u.truncate(200, '…', false) }}</p>
+            <p class="mb-1">{{ r.summary|length > 200 ? r.summary|slice(0, 200) ~ '…' : r.summary }}</p>
             <small>Updated: {{ r.updatedAt ? r.updatedAt|date('Y-m-d H:i') : (r.date ? r.date|date('Y-m-d H:i') : '') }}</small>
           </a>
         {% endfor %}

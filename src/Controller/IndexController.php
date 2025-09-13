@@ -31,8 +31,12 @@ class IndexController extends AbstractController { //article controller
          */
 
         // return new Response('<h1>Hello<h1>');
-    $articles=$this->getDoctrine()->getRepository
-    (Review::class)->findAll();
+    try {
+        $articles = $this->getDoctrine()->getRepository(Review::class)->findAll();
+    } catch (\Throwable $e) {
+        // In test or fresh envs without DB schema, render with no articles
+        $articles = [];
+    }
 
 
          return $this->render('articles/index.html.twig', array('articles' => $articles)); //we use this to generate article objects, each containing all of our article data

@@ -25,11 +25,10 @@
           <h5 class="mb-1">{{ r.movieTitle }}</h5>
           <small>Rating: {{ r.rating ?? 'n/a' }}</small>
         </div>
-        <p class="mb-1">{{ r.summary|u.truncate(180, '…', false) }}</p>
+        <p class="mb-1">{{ r.summary|length > 180 ? r.summary|slice(0, 180) ~ '…' : r.summary }}</p>
         <small>Director: {{ r.director ?? 'Unknown' }}</small>
       </a>
     {% endfor %}
     </div>
   </div>
 {% endblock %}
-

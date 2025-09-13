@@ -16,9 +16,13 @@ class ReviewRepositoryTest extends KernelTestCase
     public function testRecentReturnsArray(): void
     {
         self::bootKernel();
-        $container = static::getContainer();
+        // Symfony 4.4: access the container via self::$container
+        $container = self::$container;
+        // Obtain repository via Doctrine to avoid relying on service visibility
+        /** @var \Doctrine\Persistence\ManagerRegistry $doctrine */
+        $doctrine = $container->get('doctrine');
         /** @var ReviewRepository $repo */
-        $repo = $container->get(ReviewRepository::class);
+        $repo = $doctrine->getRepository(\App\Entity\Review::class);
         $results = $repo->recent(5);
         $this->assertIsArray($results);
     }

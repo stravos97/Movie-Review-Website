@@ -15,7 +15,7 @@
               <h5 class="mb-1">On: {{ c.movieID.movieTitle }}</h5>
               <small>{{ c.date ? c.date|date('Y-m-d H:i') : '' }}</small>
             </div>
-            <p class="mb-1">{{ c.commentBody|u.truncate(220, '…', false) }}</p>
+            <p class="mb-1">{{ c.commentBody|length > 220 ? c.commentBody|slice(0, 220) ~ '…' : c.commentBody }}</p>
           </a>
         {% endfor %}
       </div>

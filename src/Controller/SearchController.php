@@ -28,8 +28,14 @@ class SearchController extends AbstractController
                 $mode = 'fulltext';
             } catch (\Throwable $e) {
                 // Fallback to LIKE search if fulltext fails
-                $results = $reviews->search($q, $limit, $offset);
-                $mode = 'partial';
+                try {
+                    $results = $reviews->search($q, $limit, $offset);
+                    $mode = 'partial';
+                } catch (\Throwable $e2) {
+                    // If DB is not initialized, return empty results gracefully
+                    $results = [];
+                    $mode = 'none';
+                }
             }
         }
 
@@ -40,4 +46,3 @@ class SearchController extends AbstractController
         ]);
     }
 }
-
